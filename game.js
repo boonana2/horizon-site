@@ -20,6 +20,7 @@ games.forEach((game, i) => {
   const card = document.createElement(game.ready ? "a" : "div");
   card.className = "tile" + (game.ready ? "" : " locked");
   if (game.ready) card.href = `games/${game.slug}/index.html`;
+  card.dataset.title = game.title.toLowerCase();
 
   card.innerHTML = `
     <span class="tile-num">${String(i + 1).padStart(2, "0")}</span>
@@ -30,3 +31,17 @@ games.forEach((game, i) => {
 
   grid.appendChild(card);
 });
+
+// ---------------------------------------------------------
+// Search: filters tiles by title as the user types.
+// ---------------------------------------------------------
+const searchInput = document.getElementById("search");
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim().toLowerCase();
+    document.querySelectorAll("#grid .tile").forEach(tile => {
+      const matches = tile.dataset.title.includes(query);
+      tile.style.display = matches ? "" : "none";
+    });
+  });
+}
