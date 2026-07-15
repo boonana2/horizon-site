@@ -6,7 +6,7 @@
 <title>Horizon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,6 +14,28 @@
   <header class="hero">
     <div class="glow" aria-hidden="true"></div>
     <div class="hero-inner">
+      <svg class="sun-art" viewBox="0 0 300 180" aria-hidden="true">
+        <defs>
+          <filter id="soft-glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <clipPath id="stripes">
+            <rect x="0" y="0" width="300" height="22"/>
+            <rect x="0" y="30" width="300" height="17"/>
+            <rect x="0" y="55" width="300" height="13"/>
+            <rect x="0" y="76" width="300" height="10"/>
+            <rect x="0" y="93" width="300" height="8"/>
+            <rect x="0" y="107" width="300" height="6"/>
+            <rect x="0" y="118" width="300" height="5"/>
+          </clipPath>
+        </defs>
+        <circle cx="150" cy="88" r="82" fill="none" stroke="#FF7A33" stroke-width="1" opacity="0.35" filter="url(#soft-glow)"/>
+        <circle cx="150" cy="88" r="66" fill="#FF7A33" clip-path="url(#stripes)" filter="url(#soft-glow)"/>
+      </svg>
       <h1 class="wordmark">Horizon</h1>
       <p class="subtitle">Small games, built one at a time.</p>
     </div>
