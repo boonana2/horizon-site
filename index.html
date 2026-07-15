@@ -3,42 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE ARCADE</title>
+<title>Horizon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <header class="hero">
     <div class="hero-inner">
-      <p class="eyebrow">// SLOT 001 &mdash; POWER ON</p>
-      <h1 class="title">THE<br>ARCADE</h1>
-      <p class="subtitle">A shelf of games built by hand. Pick a cartridge, press start.</p>
+      <p class="eyebrow">A place to play</p>
+      <h1 class="wordmark">Horizon</h1>
+      <p class="subtitle">Small games, built one at a time. Pick something below.</p>
     </div>
-    <div class="scanlines" aria-hidden="true"></div>
+
+    <svg class="ridge" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FF7A33" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#FF7A33" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="90" width="1200" height="40" fill="url(#glow)"/>
+      <path d="M0,150 L120,110 L260,140 L420,90 L600,135 L760,100 L940,145 L1100,105 L1200,130 L1200,220 L0,220 Z" fill="#1B1436"/>
+      <path d="M0,170 L160,130 L340,160 L520,120 L700,155 L880,125 L1060,160 L1200,140 L1200,220 L0,220 Z" fill="#251B23"/>
+      <line x1="0" y1="128" x2="1200" y2="128" stroke="#FF7A33" stroke-width="1.5" opacity="0.7"/>
+    </svg>
   </header>
 
   <main>
-    <section class="shelf-section">
-      <div class="shelf-heading">
-        <h2>Cartridges</h2>
-        <span class="count" id="cart-count">0 loaded</span>
+    <section class="grid-section">
+      <div class="grid-heading">
+        <h2>Games</h2>
+        <span class="count" id="game-count">0 live</span>
       </div>
 
-      <div class="shelf" id="shelf">
-        <!-- Cartridges get added here. Duplicate a .cartridge block and edit it when you add a game. -->
+      <div class="grid" id="grid">
+        <!-- rendered by script.js -->
       </div>
     </section>
 
     <section class="empty-note">
-      <p>The shelf's empty for now &mdash; that's normal. Every cartridge below is a placeholder until a real game gets built and linked to it.</p>
+      <p>Nothing's live yet &mdash; each tile below is a placeholder until a real game is linked to it.</p>
     </section>
   </main>
 
   <footer>
-    <p>Built for school. Powered by nothing but a browser.</p>
+    <p>Built for school.</p>
   </footer>
 
   <script src="script.js"></script>
