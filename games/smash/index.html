@@ -10,11 +10,13 @@
 <body>
   <nav class="topnav">
     <a href="../../index.html" class="nav-brand">🌅 Horizon</a>
-    <span class="nav-title">Summit Smash</span>
+    <div class="nav-right">
+      <span class="nav-title">Summit Smash</span>
+      <a href="../../index.html" class="exit-btn" aria-label="Exit to Horizon">✕</a>
+    </div>
   </nav>
   <main>
     <div class="arena-wrap">
-      <a href="../../index.html" class="exit-btn" aria-label="Exit to Horizon">✕</a>
       <canvas id="game" width="900" height="500"></canvas>
 
       <!-- Preview screen: shown first, before any gameplay -->
@@ -80,11 +82,15 @@
             <span>&larr; / &rarr; move · &uarr; jump · / attack</span>
           </div>
         </div>
+        <button id="back-to-preview" class="back-btn">&larr; Back</button>
       </div>
 
       <div id="winner" class="overlay hidden">
         <h1 id="winner-text">Player 1 Wins!</h1>
-        <button id="rematch">Play Again</button>
+        <div class="menu-buttons">
+          <button id="rematch">Play Again</button>
+          <button id="winner-back" class="back-btn">Back to Preview</button>
+        </div>
       </div>
     </div>
   </main>
