@@ -159,17 +159,17 @@
             font-style: normal !important;
         }
 
-        /* CRITICAL FIX: Overriding Poly Track's direct JS screen scaling.
-          This forces the dynamic game canvas to respect the boundaries of 
-          the parent 900x500 box, instead of snapping to full window sizing.
+        /* Override CSS controls: Since CSS is being overriden by JS sizing,
+          we use !important declarations to hard-clamp the sizing to the parent container.
         */
-        #screen {
+        #screen, #ui, #transition-layer {
             position: absolute !important;
             width: 100% !important;
             height: 100% !important;
+            max-width: 900px !important;
+            max-height: 500px !important;
             top: 0 !important;
             left: 0 !important;
-            object-fit: contain !important;
         }
     </style>
 </head>
@@ -266,7 +266,7 @@
   </nav>
 
   <main>
-    <div class="arena-wrap">
+    <div class="arena-wrap" id="arena">
       <canvas id="screen"></canvas>
       <div id="ui"></div>
       <div id="transition-layer"></div>
@@ -360,9 +360,35 @@
         });
       });
 
+      // Intercept window properties so engine scripts calculate correct sizing based on the arena instead of the entire window
+      let gameActive = false;
+      
+      Object.defineProperty(window, 'innerWidth', {
+        get: function() {
+          if (gameActive) {
+            const arena = document.getElementById('arena');
+            return arena ? arena.clientWidth : 900;
+          }
+          return window.outerWidth || document.documentElement.clientWidth;
+        }
+      });
+
+      Object.defineProperty(window, 'innerHeight', {
+        get: function() {
+          if (gameActive) {
+            const arena = document.getElementById('arena');
+            return arena ? arena.clientHeight : 500;
+          }
+          return window.outerHeight || document.documentElement.clientHeight;
+        }
+      });
+
       // Launch Game on Play Button Click
       if (startPlayBtn && previewOverlay) {
         startPlayBtn.addEventListener('click', () => {
+          // Tell our overrides to activate bounds-clamping sizing
+          gameActive = true;
+
           // Hide the preview overlay using stylesheet classes
           previewOverlay.classList.add('hidden');
 
@@ -376,6 +402,14 @@
           mainScript.src = "main.bundle.js";
           mainScript.defer = true;
           document.head.appendChild(mainScript);
+
+          // Give dynamic canvas a brief moment to hook, then trigger a simulated screen resize
+          setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+          }, 150);
+          setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+          }, 500);
         });
       }
     });
