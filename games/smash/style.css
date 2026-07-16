@@ -1,0 +1,133 @@
+:root {
+  --sky: #1B1436;
+  --ground: #251B23;
+  --sky-deep: #130F28;
+  --orange: #FF7A33;
+  --text: #F3EDF7;
+  --muted: #9089A3;
+  --line: #382C4A;
+  --font-display: "Lexend", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--sky);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+.topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--sky-deep);
+}
+
+.nav-brand {
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.nav-title {
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.arena-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: linear-gradient(180deg, #130F28 0%, #1B1436 70%);
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: rgba(19, 15, 40, 0.9);
+  border-radius: 12px;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.overlay.hidden { display: none; }
+
+.overlay h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+}
+
+.overlay p {
+  color: var(--muted);
+  margin: 0;
+  max-width: 40ch;
+}
+
+.menu-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.menu-buttons button,
+#rematch {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--sky-deep);
+  background: var(--orange);
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.3rem;
+  cursor: pointer;
+}
+
+.menu-buttons button:hover,
+#rematch:hover { opacity: 0.9; }
+
+.controls-info {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.controls-info strong {
+  display: block;
+  font-family: var(--font-display);
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+
+.controls-info span { color: var(--muted); }
