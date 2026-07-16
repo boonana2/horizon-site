@@ -6,58 +6,6 @@
 <title>Horizon: Poly Track</title>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-    <style>
-  /* Fix layout stacking so the game canvas and UI sit behind the overlays */
-  .arena-wrap {
-    position: relative;
-    width: 900px;
-    height: 500px;
-    margin: 0 auto;
-    overflow: hidden;
-    border-radius: 12px; /* Matches your template's rounded corners */
-  }
-
-  /* Force the Poly Track canvas, UI layer, and transition screen to stack perfectly */
-  #screen, 
-  #ui, 
-  #transition-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 1;
-  }
-
-  /* Ensure game UI elements sit on top of the webgl canvas but behind template menus */
-  #ui {
-    z-index: 2;
-    pointer-events: auto; /* Let you click game menus */
-  }
-
-  #transition-layer {
-    z-index: 3;
-    pointer-events: none;
-  }
-
-  /* Keep your custom preview & select overlays sitting on the very top layer */
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10; /* Keeps template overlays above the running game */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .overlay.hidden {
-    display: none !important;
-  }
-</style>
 
 <link rel="preload" href="https://cdn.jsdelivr.net/gh/AZURE2077/polytrack-beta-0.6.0@main/forced_square.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
 <link rel="preload" href="https://cdn.jsdelivr.net/gh/AZURE2077/polytrack-beta-0.6.0@main/images/logo.svg" as="image" type="image/svg+xml" crossorigin="anonymous" />
@@ -104,7 +52,6 @@
         try { window.webkitAudioContext = PatchedAC; } catch(e) {}
     }
     
-    // Explicitly declaring cdnBase here so we don't need the <base> tag
     var cdnBase = "https://cdn.jsdelivr.net/gh/AZURE2077/polytrack-beta-0.6.0@main/";
     var PROXY = "vpskodub.tmena1565.workers.dev";
     var workerPatchLines = [
@@ -382,10 +329,6 @@
     </div>
   </main>
 
-  <script>
-    document.getElementById("start-play").addEventListener("click", function() {
-      document.getElementById("preview").classList.add("hidden");
-    });
   <script src="game.js"></script>
 </body>
 </html>
