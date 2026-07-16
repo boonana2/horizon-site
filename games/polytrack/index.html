@@ -1,321 +1,269 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Horizon: Poly Track</title>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-
-<link rel="preload" href="https://cdn.jsdelivr.net/gh/AZURE2077/polytrack-beta-0.6.0@main/forced_square.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-<link rel="preload" href="https://cdn.jsdelivr.net/gh/AZURE2077/polytrack-beta-0.6.0@main/images/logo.svg" as="image" type="image/svg+xml" crossorigin="anonymous" />
-<link rel="preload" href="https://cdn.jsdelivr.net/gh/AZURE2077/polytrack-beta-0.6.0@main/images/discord.svg" as="image" type="image/svg+xml" crossorigin="anonymous" />
-<link rel="manifest" href="https://cdn.jsdelivr.net/gh/AZURE2077/polytrack-beta-0.6.0@main/manifest.json" />
-
-<script>
-    var NativeImage = window.Image;
-    window.Image = function() {
-        var img = arguments.length ? new NativeImage(arguments[0], arguments[1]) : new NativeImage();
-        img.crossOrigin = "anonymous";
-        return img;
-    };
-    window.Image.prototype = NativeImage.prototype;
-    var _createElement = document.createElement.bind(document);
-    document.createElement = function(tag) {
-        var el = _createElement.apply(document, arguments);
-        if (typeof tag === "string" && tag.toLowerCase() === "img") {
-            el.crossOrigin = "anonymous";
-        }
-        return el;
-    };
-    var _audioContexts = [];
-    var _gestured = false;
-    function _resumeAll() {
-        _gestured = true;
-        _audioContexts.forEach(function(ctx) {
-            if (ctx.state === "suspended") ctx.resume();
-        });
-    }
-    document.addEventListener("click", _resumeAll, true);
-    document.addEventListener("keydown", _resumeAll, true);
-    document.addEventListener("touchstart", _resumeAll, true);
-    var NativeAC = window.AudioContext || window.webkitAudioContext;
-    if (NativeAC) {
-        var PatchedAC = function() {
-            var ctx = arguments.length ? new NativeAC(arguments[0]) : new NativeAC();
-            _audioContexts.push(ctx);
-            if (_gestured && ctx.state === "suspended") ctx.resume();
-            return ctx;
+    <base href="https://cdn.jsdelivr.net/gh/AZURE2077/polytrack-beta-0.6.0@main/">
+    <script>
+        var NativeImage = window.Image;
+        window.Image = function() {
+            var img = arguments.length ? new NativeImage(arguments[0], arguments[1]) : new NativeImage();
+            img.crossOrigin = "anonymous";
+            return img;
         };
-        PatchedAC.prototype = NativeAC.prototype;
-        try { window.AudioContext = PatchedAC; } catch(e) {}
-        try { window.webkitAudioContext = PatchedAC; } catch(e) {}
-    }
-    
-    var cdnBase = "https://cdn.jsdelivr.net/gh/AZURE2077/polytrack-beta-0.6.0@main/";
-    var PROXY = "vpskodub.tmena1565.workers.dev";
-    var workerPatchLines = [
-        'var __cdnBase = "' + cdnBase + '";',
-        'var __proxy = "' + PROXY + '";',
-        'function __resolveUrl(url) {',
-        '    if (typeof url !== "string") return url;',
-        '    if (url.indexOf("http") !== 0 && url.indexOf("blob:") !== 0 && url.indexOf("data:") !== 0 && url.indexOf("//") !== 0) {',
-        '        return __cdnBase + url.replace(/^\\//, "");',
-        '    }',
-        '    return url.replace("vps.kodub.com", __proxy);',
-        '}',
-        'var __origFetch = self.fetch.bind(self);',
-        'self.fetch = function(input, init) {',
-        '    if (typeof input === "string") input = __resolveUrl(input);',
-        '    else if (input instanceof Request) input = new Request(__resolveUrl(input.url), input);',
-        '    return __origFetch(input, init);',
-        '};',
-        'var __origXHROpen = XMLHttpRequest.prototype.open;',
-        'XMLHttpRequest.prototype.open = function(method, url) {',
-        '    var args = Array.prototype.slice.call(arguments);',
-        '    args[1] = __resolveUrl(url);',
-        '    return __origXHROpen.apply(this, args);',
-        '};'
-    ];
-    var workerPatch = workerPatchLines.join("\n") + "\n";
-    window.simulationWorkerReady = fetch(cdnBase + "simulation_worker.bundle.js")
-        .then(function(res) { return res.text(); })
-        .then(function(text) {
-            text = text.split("replacethisplease").join(cdnBase);
-            text = text.replace(
-                /importScripts\(\s*["'](?!https?:\/\/|blob:|data:)([^"']+)["']\s*\)/g,
-                function(match, path) { return 'importScripts("' + cdnBase + path + '")'; }
-            );
-            text = workerPatch + text;
-            return "data:application/javascript," + encodeURIComponent(text);
-        });
-    var ogWorker = window.Worker;
-    window.Worker = function(scriptUrl, options) {
-        if (typeof scriptUrl === "string" && scriptUrl.toLowerCase() === "simulation_worker.bundle.js") {
-            var realWorker = null;
-            var pendingPosts = [];
-            var listeners = {};
-            var wrapper = {
-                postMessage: function() {
-                    var args = arguments;
-                    if (realWorker) realWorker.postMessage.apply(realWorker, args);
-                    else pendingPosts.push(args);
-                },
-                terminate: function() { if (realWorker) realWorker.terminate(); },
-                addEventListener: function(type, fn, opts) {
-                    if (!listeners[type]) listeners[type] = [];
-                    listeners[type].push({ fn: fn, opts: opts });
-                    if (realWorker) realWorker.addEventListener(type, fn, opts);
-                },
-                removeEventListener: function(type, fn) {
-                    if (realWorker) realWorker.removeEventListener(type, fn);
-                }
+        window.Image.prototype = NativeImage.prototype;
+        var _createElement = document.createElement.bind(document);
+        document.createElement = function(tag) {
+            var el = _createElement.apply(document, arguments);
+            if (typeof tag === "string" && tag.toLowerCase() === "img") {
+                el.crossOrigin = "anonymous";
+            }
+            return el;
+        };
+        var _audioContexts = [];
+        var _gestured = false;
+        function _resumeAll() {
+            _gestured = true;
+            _audioContexts.forEach(function(ctx) {
+                if (ctx.state === "suspended") ctx.resume();
+            });
+        }
+        document.addEventListener("click", _resumeAll, true);
+        document.addEventListener("keydown", _resumeAll, true);
+        document.addEventListener("touchstart", _resumeAll, true);
+        var NativeAC = window.AudioContext || window.webkitAudioContext;
+        if (NativeAC) {
+            var PatchedAC = function() {
+                var ctx = arguments.length ? new NativeAC(arguments[0]) : new NativeAC();
+                _audioContexts.push(ctx);
+                if (_gestured && ctx.state === "suspended") ctx.resume();
+                return ctx;
             };
-            Object.defineProperty(wrapper, "onmessage", {
-                get: function() { return this._onmessage; },
-                set: function(fn) { this._onmessage = fn; if (realWorker) realWorker.onmessage = fn; }
+            PatchedAC.prototype = NativeAC.prototype;
+            try { window.AudioContext = PatchedAC; } catch(e) {}
+            try { window.webkitAudioContext = PatchedAC; } catch(e) {}
+        }
+        var cdnBase = document.querySelector("base").href;
+        var PROXY = "vpskodub.tmena1565.workers.dev";
+        var workerPatchLines = [
+            'var __cdnBase = "' + cdnBase + '";',
+            'var __proxy = "' + PROXY + '";',
+            'function __resolveUrl(url) {',
+            '    if (typeof url !== "string") return url;',
+            '    if (url.indexOf("http") !== 0 && url.indexOf("blob:") !== 0 && url.indexOf("data:") !== 0 && url.indexOf("//") !== 0) {',
+            '        return __cdnBase + url.replace(/^\\//, "");',
+            '    }',
+            '    return url.replace("vps.kodub.com", __proxy);',
+            '}',
+            'var __origFetch = self.fetch.bind(self);',
+            'self.fetch = function(input, init) {',
+            '    if (typeof input === "string") input = __resolveUrl(input);',
+            '    else if (input instanceof Request) input = new Request(__resolveUrl(input.url), input);',
+            '    return __origFetch(input, init);',
+            '};',
+            'var __origXHROpen = XMLHttpRequest.prototype.open;',
+            'XMLHttpRequest.prototype.open = function(method, url) {',
+            '    var args = Array.prototype.slice.call(arguments);',
+            '    args[1] = __resolveUrl(url);',
+            '    return __origXHROpen.apply(this, args);',
+            '};'
+        ];
+        var workerPatch = workerPatchLines.join("\n") + "\n";
+        window.simulationWorkerReady = fetch(cdnBase + "simulation_worker.bundle.js")
+            .then(function(res) { return res.text(); })
+            .then(function(text) {
+                text = text.split("replacethisplease").join(cdnBase);
+                text = text.replace(
+                    /importScripts\(\s*["'](?!https?:\/\/|blob:|data:)([^"']+)["']\s*\)/g,
+                    function(match, path) { return 'importScripts("' + cdnBase + path + '")'; }
+                );
+                text = workerPatch + text;
+                return "data:application/javascript," + encodeURIComponent(text);
             });
-            Object.defineProperty(wrapper, "onerror", {
-                get: function() { return this._onerror; },
-                set: function(fn) { this._onerror = fn; if (realWorker) realWorker.onerror = fn; }
-            });
-            window.simulationWorkerReady.then(function(dataUri) {
-                realWorker = new ogWorker(dataUri, options);
-                realWorker.onmessage = function(e) { if (wrapper._onmessage) wrapper._onmessage(e); };
-                realWorker.onerror   = function(e) { if (wrapper._onerror)   wrapper._onerror(e); };
-                Object.keys(listeners).forEach(function(type) {
-                    listeners[type].forEach(function(item) {
-                        realWorker.addEventListener(type, item.fn, item.opts);
+        var ogWorker = window.Worker;
+        window.Worker = function(scriptUrl, options) {
+            if (typeof scriptUrl === "string" && scriptUrl.toLowerCase() === "simulation_worker.bundle.js") {
+                var realWorker = null;
+                var pendingPosts = [];
+                var listeners = {};
+                var wrapper = {
+                    postMessage: function() {
+                        var args = arguments;
+                        if (realWorker) realWorker.postMessage.apply(realWorker, args);
+                        else pendingPosts.push(args);
+                    },
+                    terminate: function() { if (realWorker) realWorker.terminate(); },
+                    addEventListener: function(type, fn, opts) {
+                        if (!listeners[type]) listeners[type] = [];
+                        listeners[type].push({ fn: fn, opts: opts });
+                        if (realWorker) realWorker.addEventListener(type, fn, opts);
+                    },
+                    removeEventListener: function(type, fn) {
+                        if (realWorker) realWorker.removeEventListener(type, fn);
+                    }
+                };
+                Object.defineProperty(wrapper, "onmessage", {
+                    get: function() { return this._onmessage; },
+                    set: function(fn) { this._onmessage = fn; if (realWorker) realWorker.onmessage = fn; }
+                });
+                Object.defineProperty(wrapper, "onerror", {
+                    get: function() { return this._onerror; },
+                    set: function(fn) { this._onerror = fn; if (realWorker) realWorker.onerror = fn; }
+                });
+                window.simulationWorkerReady.then(function(dataUri) {
+                    realWorker = new ogWorker(dataUri, options);
+                    realWorker.onmessage = function(e) { if (wrapper._onmessage) wrapper._onmessage(e); };
+                    realWorker.onerror   = function(e) { if (wrapper._onerror)   wrapper._onerror(e); };
+                    Object.keys(listeners).forEach(function(type) {
+                        listeners[type].forEach(function(item) {
+                            realWorker.addEventListener(type, item.fn, item.opts);
+                        });
+                    });
+                    pendingPosts.forEach(function(args) {
+                        realWorker.postMessage.apply(realWorker, args);
                     });
                 });
-                pendingPosts.forEach(function(args) {
-                    realWorker.postMessage.apply(realWorker, args);
-                });
-            });
-            return wrapper;
+                return wrapper;
+            }
+            return new ogWorker(scriptUrl, options);
+        };
+        window.Worker.prototype = ogWorker.prototype;
+        var ogFetch = window.fetch;
+        window.fetch = function(input, init) {
+            if (typeof input === "string") {
+                input = input.replace("vps.kodub.com", PROXY);
+            } else if (input instanceof Request) {
+                input = new Request(input.url.replace("vps.kodub.com", PROXY), input);
+            }
+            return ogFetch(input, init);
+        };
+        var ogXHROpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url) {
+            var args = Array.prototype.slice.call(arguments);
+            if (typeof url === "string") args[1] = url.replace("vps.kodub.com", PROXY);
+            return ogXHROpen.apply(this, args);
+        };
+    </script>
+    <meta charset="utf-8">
+    <link rel="preload" href="forced_square.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="images/logo.svg" as="image" type="image/svg+xml" crossorigin="anonymous" />
+    <link rel="preload" href="images/discord.svg" as="image" type="image/svg+xml" crossorigin="anonymous" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no">
+
+    <style>
+        /* Base page canvas setup */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: sans-serif;
         }
-        return new ogWorker(scriptUrl, options);
-    };
-    window.Worker.prototype = ogWorker.prototype;
-    var ogFetch = window.fetch;
-    window.fetch = function(input, init) {
-        if (typeof input === "string") {
-            input = input.replace("vps.kodub.com", PROXY);
-        } else if (input instanceof Request) {
-            input = new Request(input.url.replace("vps.kodub.com", PROXY), input);
+
+        #screen {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
-        return ogFetch(input, init);
-    };
-    var ogXHROpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function(method, url) {
-        var args = Array.prototype.slice.call(arguments);
-        if (typeof url === "string") args[1] = url.replace("vps.kodub.com", PROXY);
-        return ogXHROpen.apply(this, args);
-    };
-</script>
+
+        /* Clean, Non-Italic overlay */
+        #menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #130F28 0%, #0D0A1C 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            color: #F3EDF7;
+        }
+
+        .menu-container {
+            background-color: rgba(20, 16, 43, 0.85);
+            border: 1px solid rgba(255, 122, 51, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .menu-container h1 {
+            font-size: 38px;
+            margin: 0 0 15px 0;
+            color: #FF7A33;
+            letter-spacing: 1px;
+            /* Explicitly ensuring no italic stylings */
+            font-style: normal !important; 
+        }
+
+        .menu-container p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #9089A3;
+            margin: 0 0 25px 0;
+            font-style: normal !important;
+        }
+
+        .play-btn {
+            background-color: #FF7A33;
+            color: #130F28;
+            border: none;
+            border-radius: 6px;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s ease, background-color 0.2s ease;
+            font-style: normal !important;
+        }
+
+        .play-btn:hover {
+            background-color: #ff9154;
+            transform: scale(1.03);
+        }
+
+        .play-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
 </head>
 <body>
-  <svg class="page-scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <defs>
-      <filter id="sun-glow" x="-80%" y="-80%" width="260%" height="260%">
-        <feGaussianBlur stdDeviation="10" result="blur"/>
-        <feMerge>
-          <feMergeNode in="blur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-      <clipPath id="sun-stripes">
-        <rect x="380" y="330" width="440" height="34"/>
-        <rect x="380" y="378" width="440" height="26"/>
-        <rect x="380" y="418" width="440" height="20"/>
-        <rect x="380" y="452" width="440" height="16"/>
-        <rect x="380" y="480" width="440" height="12"/>
-        <rect x="380" y="500" width="440" height="9"/>
-      </clipPath>
-      <radialGradient id="sun-fade" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#FF7A33" stop-opacity="0.9"/>
-        <stop offset="100%" stop-color="#FF7A33" stop-opacity="0.55"/>
-      </radialGradient>
-    </defs>
-
-    <ellipse cx="600" cy="560" rx="520" ry="260" fill="rgba(255,122,51,0.14)"/>
-
-    <g fill="#F3EDF7">
-      <circle cx="60" cy="60" r="1.6" opacity="0.6"/>
-      <circle cx="150" cy="140" r="1" opacity="0.35"/>
-      <circle cx="100" cy="230" r="1.3" opacity="0.5"/>
-      <circle cx="220" cy="90" r="1" opacity="0.4"/>
-      <circle cx="70" cy="300" r="1.4" opacity="0.45"/>
-      <circle cx="300" cy="60" r="1" opacity="0.35"/>
-      <circle cx="330" cy="180" r="1.2" opacity="0.4"/>
-      <circle cx="1140" cy="65" r="1.6" opacity="0.6"/>
-      <circle cx="1050" cy="145" r="1" opacity="0.35"/>
-      <circle cx="1100" cy="235" r="1.3" opacity="0.5"/>
-      <circle cx="980" cy="95" r="1" opacity="0.4"/>
-      <circle cx="1130" cy="300" r="1.4" opacity="0.45"/>
-      <circle cx="900" cy="60" r="1" opacity="0.35"/>
-      <circle cx="870" cy="190" r="1.2" opacity="0.4"/>
-    </g>
-
-    <circle cx="600" cy="440" r="200" fill="url(#sun-fade)" filter="url(#sun-glow)"/>
-    <circle cx="600" cy="440" r="200" fill="#FF7A33" clip-path="url(#sun-stripes)" filter="url(#sun-glow)"/>
-
-    <path d="M0,800 L0,520 L80,470 L160,510 L260,440 L360,500 L460,430 L560,490 L660,450 L760,510 L860,440 L960,500 L1060,460 L1160,510 L1200,480 L1200,800 Z" fill="#2A2050" opacity="0.65"/>
-    <path d="M0,800 L0,580 L90,540 L190,590 L300,520 L410,580 L520,500 L630,570 L740,510 L850,580 L960,520 L1070,580 L1160,540 L1200,570 L1200,800 Z" fill="#251B23" opacity="0.9"/>
-    <path d="M0,800 L0,660 L100,620 L220,660 L340,600 L460,650 L580,610 L700,660 L820,600 L940,650 L1060,610 L1160,650 L1200,630 L1200,800 Z" fill="#130F28"/>
-
-    <g fill="#0D0A1C">
-      <g transform="translate(120,600) scale(0.9)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-      <g transform="translate(175,615) scale(0.7)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-      <g transform="translate(250,608) scale(0.6)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-      <g transform="translate(970,600) scale(0.85)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-      <g transform="translate(1030,618) scale(0.65)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-      <g transform="translate(1095,606) scale(0.75)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-    </g>
-  </svg>
-
-  <nav class="topnav">
-    <a href="../../index.html" class="nav-brand">🌅 Horizon</a>
-    <div class="nav-right">
-      <span class="nav-title">Poly Track</span>
-      <a href="../../index.html" class="exit-btn" aria-label="Exit to Horizon">✕</a>
-    </div>
-  </nav>
-  <main>
-    <div class="arena-wrap">
-      <canvas id="screen" width="900" height="500"></canvas>
-      <div id="ui"></div>
-      <div id="transition-layer"></div>
-
-      <div id="preview" class="overlay">
-        <div class="preview-content">
-          <h1>Poly Track</h1>
-          <p class="preview-tagline">A fast-paced racing game where players race through custom tracks, compete for the fastest times, and build their own courses.</p>
-
-          <div class="tabs" role="tablist">
-            <button class="tab-btn active" data-tab="gallery" type="button">Gallery</button>
-            <button class="tab-btn" data-tab="description" type="button">Description</button>
-            <button class="tab-btn" data-tab="controls" type="button">Controls</button>
-          </div>
-
-          <div class="tab-panels">
-            <div class="tab-panel active" data-panel="gallery">
-              <div class="preview-gallery">
-                <svg viewBox="0 0 200 130" role="img" aria-label="Two fighters facing off on the platform">
-                  <rect x="20" y="96" width="160" height="14" fill="#251B23"/>
-                  <rect x="20" y="96" width="160" height="3" fill="#FF7A33"/>
-                  <rect x="55" y="58" width="20" height="38" fill="#FF7A33"/>
-                  <rect x="63" y="66" width="6" height="6" fill="#130F28"/>
-                  <rect x="125" y="58" width="20" height="38" fill="#6EA8FF"/>
-                  <rect x="131" y="66" width="6" height="6" fill="#130F28"/>
-                </svg>
-                <svg viewBox="0 0 200 130" role="img" aria-label="A fighter knocked into the air after an attack">
-                  <rect x="20" y="96" width="160" height="14" fill="#251B23"/>
-                  <rect x="20" y="96" width="160" height="3" fill="#FF7A33"/>
-                  <rect x="55" y="58" width="20" height="38" fill="#FF7A33"/>
-                  <rect x="63" y="66" width="6" height="6" fill="#130F28"/>
-                  <rect x="75" y="60" width="30" height="30" fill="rgba(255,255,255,0.5)"/>
-                  <rect x="140" y="20" width="20" height="38" fill="#6EA8FF"/>
-                  <rect x="146" y="28" width="6" height="6" fill="#130F28"/>
-                </svg>
-                <svg viewBox="0 0 200 130" role="img" aria-label="Damage percentage and stocks display">
-                  <rect x="0" y="0" width="200" height="130" fill="none"/>
-                  <text x="16" y="28" font-family="Lexend, sans-serif" font-weight="600" font-size="13" fill="#F3EDF7">Blaze</text>
-                  <text x="16" y="50" font-family="Lexend, sans-serif" font-weight="700" font-size="20" fill="#FF7A33">64%</text>
-                  <text x="16" y="68" font-family="Inter, sans-serif" font-size="11" fill="#9089A3">Stocks: 2</text>
-                  <text x="184" y="28" text-anchor="end" font-family="Lexend, sans-serif" font-weight="600" font-size="13" fill="#F3EDF7">Volt</text>
-                  <text x="184" y="50" text-anchor="end" font-family="Lexend, sans-serif" font-weight="700" font-size="20" fill="#FF7A33">31%</text>
-                  <text x="184" y="68" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#9089A3">Stocks: 3</text>
-                </svg>
-              </div>
-            </div>
-
-            <div class="tab-panel" data-panel="description">
-              <p class="preview-desc">
-                Race through custom tracks, build your own courses, and compete with players globally for the absolute fastest times in low-poly style physics-based racing.
-              </p>
-            </div>
-
-            <div class="tab-panel" data-panel="controls">
-              <div class="controls-info">
-                <div>
-                  <strong>Keyboard:</strong>
-                  <span>WASD / Arrow Keys to Drive · R to Reset</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <button id="start-play" class="play-btn">Play</button>
+    <div id="menu-overlay">
+        <div class="menu-container">
+            <h1>Poly Track</h1>
+            <p>A fast-paced racing game where players race through custom tracks, compete for the fastest times, and build their own courses.</p>
+            <button class="play-btn" id="play-button">Play</button>
         </div>
-      </div>
     </div>
-  </main>
 
-  <script src="game.js"></script>
+    <canvas id="screen"></canvas>
+    <div id="ui"></div>
+    <div id="transition-layer"></div>
+
+    <script>
+        document.getElementById('play-button').addEventListener('click', function() {
+            // Remove the menu overlay from view
+            document.getElementById('menu-overlay').style.display = 'none';
+
+            // Inject the two game bundles dynamically.
+            // Because they are appended to this head, they correctly resolve 
+            // relative to the active <base> tag.
+            var errorScript = document.createElement('script');
+            errorScript.src = "error_screen.bundle.js";
+            errorScript.defer = true;
+            document.head.appendChild(errorScript);
+
+            var mainScript = document.createElement('script');
+            mainScript.src = "main.bundle.js";
+            mainScript.defer = true;
+            document.head.appendChild(mainScript);
+        });
+    </script>
 </body>
 </html>
