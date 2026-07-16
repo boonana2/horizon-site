@@ -8,9 +8,9 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   });
 });
 
-// Play Button: Open the huge local polytrack.html in a clean, unrestricted browser window
+// Play Button: Load the game directly in the SAME tab!
 document.getElementById("start-play").addEventListener("click", () => {
-  // Opening the file in a new window bypasses the iframe's sandbox security blocks,
-  // allowing Chrome to run the local physics engine completely offline!
-  window.open("polytrack.html", "_blank");
+  // Seamlessly swap the tab's location to your local game file.
+  // This bypasses the iframe security block, running the physics engine natively!
+  window.location.href = "polytrack.html";
 });
