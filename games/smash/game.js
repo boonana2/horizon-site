@@ -47,6 +47,12 @@ function resetFighters() {
 document.addEventListener("keydown", e => { keys[e.key] = true; });
 document.addEventListener("keyup", e => { keys[e.key] = false; });
 
+// Preview screen -> mode select menu
+document.getElementById("start-play").addEventListener("click", () => {
+  document.getElementById("preview").classList.add("hidden");
+  document.getElementById("menu").classList.remove("hidden");
+});
+
 document.getElementById("mode-2p").addEventListener("click", () => startGame("2p"));
 document.getElementById("mode-cpu").addEventListener("click", () => startGame("cpu"));
 document.getElementById("rematch").addEventListener("click", () => startGame(mode));
