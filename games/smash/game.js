@@ -13,6 +13,16 @@ const AIR_FRICTION = 0.95;
 const platform = { x: 130, y: 400, w: 640, h: 24 };
 const blast = { left: -80, right: W + 80, bottom: H + 100 };
 
+// Decorative background (fixed once, drawn every frame behind the action
+// so the arena doesn't feel empty at the edges)
+const STAR_COUNT = 45;
+const stars = Array.from({ length: STAR_COUNT }, () => ({
+  x: Math.random() * W,
+  y: Math.random() * platform.y * 0.85,
+  r: Math.random() * 1.4 + 0.4,
+  o: Math.random() * 0.5 + 0.2,
+}));
+
 function makeFighter(opts) {
   return {
     name: opts.name,
@@ -51,6 +61,19 @@ document.addEventListener("keyup", e => { keys[e.key] = false; });
 document.getElementById("start-play").addEventListener("click", () => {
   document.getElementById("preview").classList.add("hidden");
   document.getElementById("menu").classList.remove("hidden");
+});
+
+// Mode select menu -> back to preview
+document.getElementById("back-to-preview").addEventListener("click", () => {
+  document.getElementById("menu").classList.add("hidden");
+  document.getElementById("preview").classList.remove("hidden");
+});
+
+// Winner screen -> back to preview (instead of an immediate rematch)
+document.getElementById("winner-back").addEventListener("click", () => {
+  running = false;
+  document.getElementById("winner").classList.add("hidden");
+  document.getElementById("preview").classList.remove("hidden");
 });
 
 document.getElementById("mode-2p").addEventListener("click", () => startGame("2p"));
@@ -154,8 +177,61 @@ function runAI(f, opponent) {
   if (f.grounded && f.x > platform.x + platform.w - 60 && Math.random() < 0.02) f.vx = -MOVE_SPEED;
 }
 
+function drawBackground() {
+  // warm glow behind the platform, echoing the homepage hero
+  const glow = ctx.createRadialGradient(W / 2, platform.y - 30, 20, W / 2, platform.y - 30, 460);
+  glow.addColorStop(0, "rgba(255, 122, 51, 0.16)");
+  glow.addColorStop(0.5, "rgba(255, 122, 51, 0.05)");
+  glow.addColorStop(1, "rgba(255, 122, 51, 0)");
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, H);
+
+  // stars
+  stars.forEach(s => {
+    ctx.globalAlpha = s.o;
+    ctx.fillStyle = "#F3EDF7";
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+
+  // distant skyline silhouettes on either side, so the far edges
+  // don't sit empty next to the platform
+  ctx.fillStyle = "#1B1436";
+  ctx.beginPath();
+  ctx.moveTo(0, platform.y + 24);
+  ctx.lineTo(0, platform.y - 70);
+  ctx.lineTo(65, platform.y - 100);
+  ctx.lineTo(135, platform.y - 60);
+  ctx.lineTo(210, platform.y - 110);
+  ctx.lineTo(285, platform.y - 45);
+  ctx.lineTo(285, platform.y + 24);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(W, platform.y + 24);
+  ctx.lineTo(W, platform.y - 70);
+  ctx.lineTo(W - 65, platform.y - 105);
+  ctx.lineTo(W - 145, platform.y - 55);
+  ctx.lineTo(W - 225, platform.y - 115);
+  ctx.lineTo(W - 300, platform.y - 50);
+  ctx.lineTo(W - 300, platform.y + 24);
+  ctx.closePath();
+  ctx.fill();
+
+  // ground fade beneath the platform level
+  const groundFade = ctx.createLinearGradient(0, platform.y + 24, 0, H);
+  groundFade.addColorStop(0, "#1B1436");
+  groundFade.addColorStop(1, "#130F28");
+  ctx.fillStyle = groundFade;
+  ctx.fillRect(0, platform.y + 24, W, H - (platform.y + 24));
+}
+
 function draw() {
   ctx.clearRect(0, 0, W, H);
+  drawBackground();
 
   ctx.fillStyle = "#251B23";
   ctx.fillRect(platform.x, platform.y, platform.w, platform.h);
