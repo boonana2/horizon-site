@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <base href="https://cdn.jsdelivr.net/gh/AZURE2077/polytrack-beta-0.6.0@main/">
     <script>
@@ -142,453 +142,186 @@
             return ogXHROpen.apply(this, args);
         };
     </script>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon: Poly Track</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
     <link rel="preload" href="forced_square.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <link rel="preload" href="images/logo.svg" as="image" type="image/svg+xml" crossorigin="anonymous" />
     <link rel="preload" href="images/discord.svg" as="image" type="image/svg+xml" crossorigin="anonymous" />
     <link rel="manifest" href="manifest.json" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no">
 
     <style>
-        /* Base page layout & canvas setup */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #0d0a1c;
-            font-family: 'Inter', sans-serif;
-            color: #f3edf7;
-        }
-
-        #screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            display: block;
-        }
-
-        /* --- PREVIEW SCREEN OVERLAY --- */
-        #preview-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 100;
-            overflow: hidden;
-            background-color: #0d0a1c;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Vector background scene behind preview menu */
-        .page-scene {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            height: 100%;
-            max-width: 1200px;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Top Bar styling - Non-Italic */
-        .topnav {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background-color: rgba(13, 10, 28, 0.7);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .nav-brand {
-            font-family: 'Lexend', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: #f3edf7;
-            text-decoration: none;
+        /* Force top navigation fonts to stay normal (non-italic) */
+        .topnav, .nav-brand, .nav-title, .exit-btn {
             font-style: normal !important;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .nav-title {
-            font-family: 'Lexend', sans-serif;
-            font-weight: 500;
-            color: #9089a3;
-            font-style: normal !important;
-        }
-
-        .exit-btn {
-            background: none;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #f3edf7;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 12px;
-            font-style: normal !important;
-        }
-
-        /* Center content layout */
-        .preview-main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            z-index: 5;
-            padding: 20px;
-        }
-
-        /* Preview container box */
-        .preview-box {
-            background-color: rgba(20, 16, 43, 0.9);
-            border: 1px solid rgba(255, 122, 51, 0.15);
-            border-radius: 12px;
-            width: 100%;
-            max-width: 500px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-        }
-
-        .preview-box h1 {
-            font-family: 'Lexend', sans-serif;
-            font-size: 36px;
-            color: #fff;
-            margin: 0 0 15px 0;
-            letter-spacing: -0.5px;
-            font-style: normal !important;
-        }
-
-        .preview-tagline {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #9089a3;
-            margin: 0 0 30px 0;
-            font-style: normal !important;
-        }
-
-        /* Tabs styling */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding-bottom: 10px;
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            color: #9089a3;
-            font-family: 'Lexend', sans-serif;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            padding: 5px 10px;
-            transition: color 0.2s ease;
-            font-style: normal !important;
-        }
-
-        .tab-btn.active {
-            color: #ff7a33;
-        }
-
-        /* Panels styling */
-        .tab-panels {
-            margin-bottom: 35px;
-            min-height: 120px;
-        }
-
-        .tab-panel {
-            display: none;
-        }
-
-        .tab-panel.active {
-            display: block;
-        }
-
-        /* Gallery SVG items styling */
-        .preview-gallery {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .preview-gallery svg {
-            width: 110px;
-            height: 75px;
-            background-color: rgba(13, 10, 28, 0.5);
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .preview-desc {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #9089a3;
-            text-align: left;
-            margin: 0;
-            font-style: normal !important;
-        }
-
-        .controls-info {
-            text-align: left;
-            font-size: 14px;
-            color: #9089a3;
-        }
-
-        .controls-info strong {
-            color: #fff;
-            display: block;
-            margin-bottom: 5px;
-            font-style: normal !important;
-        }
-
-        /* Main play action */
-        .play-btn {
-            background-color: #ff7a33;
-            color: #130f28;
-            border: none;
-            border-radius: 8px;
-            width: 100%;
-            padding: 16px;
-            font-family: 'Lexend', sans-serif;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            font-style: normal !important;
-        }
-
-        .play-btn:hover {
-            background-color: #ff8e4f;
-            transform: translateY(-1px);
-        }
-
-        .play-btn:active {
-            transform: translateY(1px);
         }
     </style>
 </head>
 <body>
+  <svg class="page-scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <filter id="sun-glow" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="10" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <clipPath id="sun-stripes">
+        <rect x="380" y="330" width="440" height="34"/>
+        <rect x="380" y="378" width="440" height="26"/>
+        <rect x="380" y="418" width="440" height="20"/>
+        <rect x="380" y="452" width="440" height="16"/>
+        <rect x="380" y="480" width="440" height="12"/>
+        <rect x="380" y="500" width="440" height="9"/>
+      </clipPath>
+      <radialGradient id="sun-fade" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#FF7A33" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#FF7A33" stop-opacity="0.55"/>
+      </radialGradient>
+    </defs>
 
-    <div id="preview-overlay">
-        <svg class="page-scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-            <defs>
-              <filter id="sun-glow" x="-80%" y="-80%" width="260%" height="260%">
-                <feGaussianBlur stdDeviation="10" result="blur"/>
-                <feMerge>
-                  <feMergeNode in="blur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-              <clipPath id="sun-stripes">
-                <rect x="380" y="330" width="440" height="34"/>
-                <rect x="380" y="378" width="440" height="26"/>
-                <rect x="380" y="418" width="440" height="20"/>
-                <rect x="380" y="452" width="440" height="16"/>
-                <rect x="380" y="480" width="440" height="12"/>
-                <rect x="380" y="500" width="440" height="9"/>
-              </clipPath>
-              <radialGradient id="sun-fade" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#FF7A33" stop-opacity="0.9"/>
-                <stop offset="100%" stop-color="#FF7A33" stop-opacity="0.55"/>
-              </radialGradient>
-            </defs>
+    <ellipse cx="600" cy="560" rx="520" ry="260" fill="rgba(255,122,51,0.14)"/>
 
-            <ellipse cx="600" cy="560" rx="520" ry="260" fill="rgba(255,122,51,0.14)"/>
+    <g fill="#F3EDF7">
+      <circle cx="60" cy="60" r="1.6" opacity="0.6"/>
+      <circle cx="150" cy="140" r="1" opacity="0.35"/>
+      <circle cx="100" cy="230" r="1.3" opacity="0.5"/>
+      <circle cx="220" cy="90" r="1" opacity="0.4"/>
+      <circle cx="70" cy="300" r="1.4" opacity="0.45"/>
+      <circle cx="300" cy="60" r="1" opacity="0.35"/>
+      <circle cx="330" cy="180" r="1.2" opacity="0.4"/>
+      <circle cx="1140" cy="65" r="1.6" opacity="0.6"/>
+      <circle cx="1050" cy="145" r="1" opacity="0.35"/>
+      <circle cx="1100" cy="235" r="1.3" opacity="0.5"/>
+      <circle cx="980" cy="95" r="1" opacity="0.4"/>
+      <circle cx="1130" cy="300" r="1.4" opacity="0.45"/>
+      <circle cx="900" cy="60" r="1" opacity="0.35"/>
+      <circle cx="870" cy="190" r="1.2" opacity="0.4"/>
+    </g>
 
-            <g fill="#F3EDF7">
-              <circle cx="60" cy="60" r="1.6" opacity="0.6"/>
-              <circle cx="150" cy="140" r="1" opacity="0.35"/>
-              <circle cx="100" cy="230" r="1.3" opacity="0.5"/>
-              <circle cx="220" cy="90" r="1" opacity="0.4"/>
-              <circle cx="70" cy="300" r="1.4" opacity="0.45"/>
-              <circle cx="300" cy="60" r="1" opacity="0.35"/>
-              <circle cx="330" cy="180" r="1.2" opacity="0.4"/>
-              <circle cx="1140" cy="65" r="1.6" opacity="0.6"/>
-              <circle cx="1050" cy="145" r="1" opacity="0.35"/>
-              <circle cx="1100" cy="235" r="1.3" opacity="0.5"/>
-              <circle cx="980" cy="95" r="1" opacity="0.4"/>
-              <circle cx="1130" cy="300" r="1.4" opacity="0.45"/>
-              <circle cx="900" cy="60" r="1" opacity="0.35"/>
-              <circle cx="870" cy="190" r="1.2" opacity="0.4"/>
-            </g>
+    <circle cx="600" cy="440" r="200" fill="url(#sun-fade)" filter="url(#sun-glow)"/>
+    <circle cx="600" cy="440" r="200" fill="#FF7A33" clip-path="url(#sun-stripes)" filter="url(#sun-glow)"/>
 
-            <circle cx="600" cy="440" r="200" fill="url(#sun-fade)" filter="url(#sun-glow)"/>
-            <circle cx="600" cy="440" r="200" fill="#FF7A33" clip-path="url(#sun-stripes)" filter="url(#sun-glow)"/>
+    <path d="M0,800 L0,520 L80,470 L160,510 L260,440 L360,500 L460,430 L560,490 L660,450 L760,510 L860,440 L960,500 L1060,460 L1160,510 L1200,480 L1200,800 Z" fill="#2A2050" opacity="0.65"/>
+    <path d="M0,800 L0,580 L90,540 L190,590 L300,520 L410,580 L520,500 L630,570 L740,510 L850,580 L960,520 L1070,580 L1160,540 L1200,570 L1200,800 Z" fill="#251B23" opacity="0.9"/>
+    <path d="M0,800 L0,660 L100,620 L220,660 L340,600 L460,650 L580,610 L700,660 L820,600 L940,650 L1060,610 L1160,650 L1200,630 L1200,800 Z" fill="#130F28"/>
 
-            <path d="M0,800 L0,520 L80,470 L160,510 L260,440 L360,500 L460,430 L560,490 L660,450 L760,510 L860,440 L960,500 L1060,460 L1160,510 L1200,480 L1200,800 Z" fill="#2A2050" opacity="0.65"/>
-            <path d="M0,800 L0,580 L90,540 L190,590 L300,520 L410,580 L520,500 L630,570 L740,510 L850,580 L960,520 L1070,580 L1160,540 L1200,570 L1200,800 Z" fill="#251B23" opacity="0.9"/>
-            <path d="M0,800 L0,660 L100,620 L220,660 L340,600 L460,650 L580,610 L700,660 L820,600 L940,650 L1060,610 L1160,650 L1200,630 L1200,800 Z" fill="#130F28"/>
+    <g fill="#0D0A1C">
+      <g transform="translate(120,600) scale(0.9)">
+        <polygon points="20,0 0,26 40,26"/>
+        <polygon points="20,14 -4,44 44,44"/>
+        <rect x="16" y="44" width="8" height="14"/>
+      </g>
+      <g transform="translate(175,615) scale(0.7)">
+        <polygon points="20,0 0,26 40,26"/>
+        <polygon points="20,14 -4,44 44,44"/>
+        <rect x="16" y="44" width="8" height="14"/>
+      </g>
+      <g transform="translate(250,608) scale(0.6)">
+        <polygon points="20,0 0,26 40,26"/>
+        <polygon points="20,14 -4,44 44,44"/>
+        <rect x="16" y="44" width="8" height="14"/>
+      </g>
+      <g transform="translate(970,600) scale(0.85)">
+        <polygon points="20,0 0,26 40,26"/>
+        <polygon points="20,14 -4,44 44,44"/>
+        <rect x="16" y="44" width="8" height="14"/>
+      </g>
+      <g transform="translate(1030,618) scale(0.65)">
+        <polygon points="20,0 0,26 40,26"/>
+        <polygon points="20,14 -4,44 44,44"/>
+        <rect x="16" y="44" width="8" height="14"/>
+      </g>
+      <g transform="translate(1095,606) scale(0.75)">
+        <polygon points="20,0 0,26 40,26"/>
+        <polygon points="20,14 -4,44 44,44"/>
+        <rect x="16" y="44" width="8" height="14"/>
+      </g>
+    </g>
+  </svg>
 
-            <g fill="#0D0A1C">
-              <g transform="translate(120,600) scale(0.9)">
-                <polygon points="20,0 0,26 40,26"/>
-                <polygon points="20,14 -4,44 44,44"/>
-                <rect x="16" y="44" width="8" height="14"/>
-              </g>
-              <g transform="translate(175,615) scale(0.7)">
-                <polygon points="20,0 0,26 40,26"/>
-                <polygon points="20,14 -4,44 44,44"/>
-                <rect x="16" y="44" width="8" height="14"/>
-              </g>
-              <g transform="translate(250,608) scale(0.6)">
-                <polygon points="20,0 0,26 40,26"/>
-                <polygon points="20,14 -4,44 44,44"/>
-                <rect x="16" y="44" width="8" height="14"/>
-              </g>
-              <g transform="translate(970,600) scale(0.85)">
-                <polygon points="20,0 0,26 40,26"/>
-                <polygon points="20,14 -4,44 44,44"/>
-                <rect x="16" y="44" width="8" height="14"/>
-              </g>
-              <g transform="translate(1030,618) scale(0.65)">
-                <polygon points="20,0 0,26 40,26"/>
-                <polygon points="20,14 -4,44 44,44"/>
-                <rect x="16" y="44" width="8" height="14"/>
-              </g>
-              <g transform="translate(1095,606) scale(0.75)">
-                <polygon points="20,0 0,26 40,26"/>
-                <polygon points="20,14 -4,44 44,44"/>
-                <rect x="16" y="44" width="8" height="14"/>
-              </g>
-            </g>
-        </svg>
-
-        <nav class="topnav">
-            <a href="../../index.html" class="nav-brand">🌅 Horizon</a>
-            <div class="nav-right">
-                <span class="nav-title">Poly Track</span>
-                <a href="../../index.html" class="exit-btn" aria-label="Exit to Horizon">✕</a>
-            </div>
-        </nav>
-
-        <div class="preview-main">
-            <div class="preview-box">
-                <h1>Poly Track</h1>
-                <p class="preview-tagline">A fast-paced racing game where players race through custom tracks, compete for the fastest times, and build their own courses.</p>
-
-                <div class="tabs" role="tablist">
-                    <button class="tab-btn active" data-tab="gallery" type="button">Gallery</button>
-                    <button class="tab-btn" data-tab="description" type="button">Description</button>
-                    <button class="tab-btn" data-tab="controls" type="button">Controls</button>
-                </div>
-
-                <div class="tab-panels">
-                    <div class="tab-panel active" data-panel="gallery">
-                        <div class="preview-gallery">
-                            <svg viewBox="0 0 200 130">
-                                <rect x="20" y="96" width="160" height="14" fill="#251B23"/>
-                                <rect x="20" y="96" width="160" height="3" fill="#FF7A33"/>
-                                <rect x="55" y="58" width="20" height="38" fill="#FF7A33"/>
-                                <rect x="63" y="66" width="6" height="6" fill="#130F28"/>
-                                <rect x="125" y="58" width="20" height="38" fill="#6EA8FF"/>
-                                <rect x="131" y="66" width="6" height="6" fill="#130F28"/>
-                            </svg>
-                            <svg viewBox="0 0 200 130">
-                                <rect x="20" y="96" width="160" height="14" fill="#251B23"/>
-                                <rect x="20" y="96" width="160" height="3" fill="#FF7A33"/>
-                                <rect x="55" y="58" width="20" height="38" fill="#FF7A33"/>
-                                <rect x="63" y="66" width="6" height="6" fill="#130F28"/>
-                                <rect x="75" y="60" width="30" height="30" fill="rgba(255,255,255,0.5)"/>
-                                <rect x="140" y="20" width="20" height="38" fill="#6EA8FF"/>
-                                <rect x="146" y="28" width="6" height="6" fill="#130F28"/>
-                            </svg>
-                            <svg viewBox="0 0 200 130">
-                                <text x="16" y="28" font-family="sans-serif" font-weight="600" font-size="13" fill="#F3EDF7">Blaze</text>
-                                <text x="16" y="50" font-family="sans-serif" font-weight="700" font-size="20" fill="#FF7A33">64%</text>
-                                <text x="16" y="68" font-family="sans-serif" font-size="11" fill="#9089A3">Stocks: 2</text>
-                                <text x="184" y="28" text-anchor="end" font-family="sans-serif" font-weight="600" font-size="13" fill="#F3EDF7">Volt</text>
-                                <text x="184" y="50" text-anchor="end" font-family="sans-serif" font-weight="700" font-size="20" fill="#FF7A33">31%</text>
-                                <text x="184" y="68" text-anchor="end" font-family="sans-serif" font-size="11" fill="#9089A3">Stocks: 3</text>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="tab-panel" data-panel="description">
-                        <p class="preview-desc">
-                            Race through custom tracks, build your own courses, and compete with players globally for the absolute fastest times in low-poly style physics-based racing.
-                        </p>
-                    </div>
-
-                    <div class="tab-panel" data-panel="controls">
-                        <div class="controls-info">
-                            <strong>Keyboard Controls:</strong>
-                            <span>WASD / Arrow Keys to Drive · R to Reset</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button id="play-button" class="play-btn">Play</button>
-            </div>
-        </div>
+  <nav class="topnav">
+    <a href="../../index.html" class="nav-brand">🌅 Horizon</a>
+    <div class="nav-right">
+      <span class="nav-title">Poly Track</span>
+      <a href="../../index.html" class="exit-btn" aria-label="Exit to Horizon">✕</a>
     </div>
+  </nav>
+  <main>
+    <div class="arena-wrap">
+      <canvas id="screen"></canvas>
+      <div id="ui"></div>
+      <div id="transition-layer"></div>
 
-    <canvas id="screen"></canvas>
-    <div id="ui"></div>
-    <div id="transition-layer"></div>
+      <div id="preview" class="overlay">
+        <div class="preview-content">
+          <h1>Poly Track</h1>
+          <p class="preview-tagline">A fast-paced racing game where players race through custom tracks, compete for the fastest times, and build their own courses.</p>
 
-    <script>
-        // Tab switching behavior
-        const tabButtons = document.querySelectorAll('.tab-btn');
-        const tabPanels = document.querySelectorAll('.tab-panel');
+          <div class="tabs" role="tablist">
+            <button class="tab-btn active" data-tab="gallery" type="button">Gallery</button>
+            <button class="tab-btn" data-tab="description" type="button">Description</button>
+            <button class="tab-btn" data-tab="controls" type="button">Controls</button>
+          </div>
 
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabPanels.forEach(panel => panel.classList.remove('active'));
+          <div class="tab-panels">
+            <div class="tab-panel active" data-panel="gallery">
+              <div class="preview-gallery">
+                <svg viewBox="0 0 200 130" role="img" aria-label="Two fighters facing off on the platform">
+                  <rect x="20" y="96" width="160" height="14" fill="#251B23"/>
+                  <rect x="20" y="96" width="160" height="3" fill="#FF7A33"/>
+                  <rect x="55" y="58" width="20" height="38" fill="#FF7A33"/>
+                  <rect x="63" y="66" width="6" height="6" fill="#130F28"/>
+                  <rect x="125" y="58" width="20" height="38" fill="#6EA8FF"/>
+                  <rect x="131" y="66" width="6" height="6" fill="#130F28"/>
+                </svg>
+                <svg viewBox="0 0 200 130" role="img" aria-label="A fighter knocked into the air after an attack">
+                  <rect x="20" y="96" width="160" height="14" fill="#251B23"/>
+                  <rect x="20" y="96" width="160" height="3" fill="#FF7A33"/>
+                  <rect x="55" y="58" width="20" height="38" fill="#FF7A33"/>
+                  <rect x="63" y="66" width="6" height="6" fill="#130F28"/>
+                  <rect x="75" y="60" width="30" height="30" fill="rgba(255,255,255,0.5)"/>
+                  <rect x="140" y="20" width="20" height="38" fill="#6EA8FF"/>
+                  <rect x="146" y="28" width="6" height="6" fill="#130F28"/>
+                </svg>
+                <svg viewBox="0 0 200 130" role="img" aria-label="Damage percentage and stocks display">
+                  <rect x="0" y="0" width="200" height="130" fill="none"/>
+                  <text x="16" y="28" font-family="Lexend, sans-serif" font-weight="600" font-size="13" fill="#F3EDF7">Blaze</text>
+                  <text x="16" y="50" font-family="Lexend, sans-serif" font-weight="700" font-size="20" fill="#FF7A33">64%</text>
+                  <text x="16" y="68" font-family="Inter, sans-serif" font-size="11" fill="#9089A3">Stocks: 2</text>
+                  <text x="184" y="28" text-anchor="end" font-family="Lexend, sans-serif" font-weight="600" font-size="13" fill="#F3EDF7">Volt</text>
+                  <text x="184" y="50" text-anchor="end" font-family="Lexend, sans-serif" font-weight="700" font-size="20" fill="#FF7A33">31%</text>
+                  <text x="184" y="68" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#9089A3">Stocks: 3</text>
+                </svg>
+              </div>
+            </div>
 
-                button.classList.add('active');
-                const targetPanelId = button.getAttribute('data-tab');
-                const targetPanel = document.querySelector(`[data-panel="${targetPanelId}"]`);
-                if (targetPanel) {
-                    targetPanel.classList.add('active');
-                }
-            });
-        });
+            <div class="tab-panel" data-panel="description">
+              <p class="preview-desc">
+                Race through custom tracks, build your own courses, and compete with players globally for the absolute fastest times in low-poly style physics-based racing.
+              </p>
+            </div>
 
-        // Trigger loading game files on Play
-        document.getElementById('play-button').addEventListener('click', function() {
-            // Remove the menu overlay from view
-            document.getElementById('preview-overlay').style.display = 'none';
+            <div class="tab-panel" data-panel="controls">
+              <div class="controls-info">
+                <div>
+                  <strong>Keyboard:</strong>
+                  <span>WASD / Arrow Keys to Drive · R to Reset</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-            // Inject the original game bundle scripts dynamically.
-            // Appending them to the head keeps asset resolution relative to the <base> tag.
-            var errorScript = document.createElement('script');
-            errorScript.src = "error_screen.bundle.js";
-            errorScript.defer = true;
-            document.head.appendChild(errorScript);
+          <button id="start-play" class="play-btn">Play</button>
+        </div>
+      </div>
+    </div>
+  </main>
 
-            var mainScript = document.createElement('script');
-            mainScript.src = "main.bundle.js";
-            mainScript.defer = true;
-            document.head.appendChild(mainScript);
-        });
-    </script>
+  <script src="game.js"></script>
 </body>
 </html>
