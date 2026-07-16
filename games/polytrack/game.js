@@ -8,23 +8,8 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   });
 });
 
-// Preview screen -> Launch Poly Track
+// Launch Poly Track directly in a new window/tab 
+// This completely bypasses Chrome's local iframe security blocks!
 document.getElementById("start-play").addEventListener("click", () => {
-  // Hide the preview overlay
-  document.getElementById("preview").classList.add("hidden");
-  
-  // Create the iframe and load polytrack.html only AFTER clicking play
-  const container = document.getElementById("game-container");
-  const iframe = document.createElement("iframe");
-  iframe.src = "polytrack.html";
-  iframe.allowFullscreen = true;
-  iframe.title = "Poly Track";
-  
-  // Append the game to the screen
-  container.appendChild(iframe);
-  
-  // Focus the iframe automatically so keyboard controls work immediately
-  iframe.onload = () => {
-    iframe.focus();
-  };
+  window.open("polytrack.html", "_blank");
 });
