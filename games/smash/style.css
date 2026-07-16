@@ -13,7 +13,7 @@
 html, body { height: 100%; }
 body {
   margin: 0;
-  background: var(--sky);
+  background: var(--sky-deep);
   color: var(--text);
   font-family: var(--font-body);
   display: flex;
@@ -23,20 +23,9 @@ body {
   overflow-x: hidden;
 }
 
-/* ---------- Page-wide background art (fills empty space around the card) ---------- */
+/* ---------- Page-wide neon sunset backdrop ---------- */
 
-.page-glow {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 1100px;
-  height: 1100px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(255, 122, 51, 0.14) 0%, rgba(255, 122, 51, 0.05) 40%, rgba(255, 122, 51, 0) 70%);
-  z-index: 0;
-  pointer-events: none;
-}
-.page-stars {
+.page-scene {
   position: fixed;
   inset: 0;
   width: 100%;
@@ -53,7 +42,7 @@ body {
   justify-content: space-between;
   padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--line);
-  background: rgba(19, 15, 40, 0.85);
+  background: rgba(19, 15, 40, 0.75);
   backdrop-filter: blur(8px);
 }
 .nav-brand {
@@ -98,8 +87,8 @@ main {
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 2rem 1rem;
+  align-items: flex-start;
+  padding: clamp(2.5rem, 8vh, 5rem) 1rem 3rem;
 }
 .arena-wrap {
   position: relative;
