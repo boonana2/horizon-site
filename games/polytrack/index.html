@@ -168,14 +168,14 @@
             display: block;
         }
 
-        /* Fully Branded Pre-Play Screen Overlay */
+        /* Pre-Play Screen Overlay */
         #menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0d0a1c;
+            background: #0b0813;
             display: flex;
             flex-direction: column;
             z-index: 99999;
@@ -194,28 +194,27 @@
             pointer-events: none;
         }
 
-        /* Navigation Bar setup matching template style */
+        /* Top Nav */
         .topnav {
             position: relative;
             z-index: 10;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
-            background: rgba(13, 10, 28, 0.4);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 40px;
+            background: transparent;
         }
 
         .nav-brand {
             font-family: 'Lexend', sans-serif;
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #FF7A33;
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 8px;
+            letter-spacing: -0.2px;
         }
 
         .nav-right {
@@ -236,23 +235,23 @@
             font-weight: 600;
             color: #9089A3;
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             transition: color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .exit-btn:hover {
             color: #FF7A33;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
         }
 
-        /* Main Center Card Layout matching Summit Smash dimensions */
+        /* Central Card matching reference dimensions exactly */
         .menu-main {
             flex: 1;
             display: flex;
@@ -264,92 +263,108 @@
         }
 
         .menu-container {
-            background-color: rgba(19, 15, 38, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
-            padding: 40px 50px;
-            max-width: 650px;
+            background-color: rgba(13, 10, 23, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 44px 50px;
+            max-width: 620px;
             width: 100%;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .menu-container h1 {
             font-family: 'Lexend', sans-serif;
             font-weight: 700;
-            font-size: 36px;
-            margin: 0 0 12px 0;
+            font-size: 34px;
+            margin: 0 0 10px 0;
             color: #FFFFFF;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.6px;
             text-align: center;
         }
 
         .menu-container .tagline {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #9089A3;
+            font-size: 14.5px;
+            line-height: 1.5;
+            color: #7b748f;
             text-align: center;
-            margin: 0 0 25px 0;
+            margin: 0 0 28px 0;
             max-width: 480px;
         }
 
-        /* Tabs Row Styling */
+        /* Exact Reference Tabs Row */
         .tabs {
             display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 24px;
+            margin-bottom: 0px;
             width: 100%;
             justify-content: center;
+            position: relative;
         }
 
         .tab-btn {
             background: none;
             border: none;
-            color: #9089A3;
+            color: #7b748f;
             font-family: 'Lexend', sans-serif;
             font-weight: 600;
-            font-size: 13px;
-            padding: 6px 16px;
+            font-size: 12.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 8px 4px 14px 4px;
             cursor: pointer;
-            transition: color 0.2s, background-color 0.2s;
-            border-radius: 20px;
+            transition: color 0.2s;
+            position: relative;
         }
 
         .tab-btn:hover {
-            color: #F3EDF7;
+            color: #d1cbdc;
         }
 
-        /* Active tab colored pill */
+        /* Underline style active element */
         .tab-btn.active {
-            color: #130F28;
-            background-color: #FF7A33;
+            color: #FF7A33;
         }
 
-        /* Separator line under tabs */
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #FF7A33;
+            border-radius: 2px;
+        }
+
+        /* Separator line directly under tabs matching preview precisely */
         .tab-separator {
             width: 100%;
             height: 1px;
             background: rgba(255, 255, 255, 0.08);
-            margin-bottom: 24px;
+            margin-top: 0px;
+            margin-bottom: 26px;
         }
 
-        /* Tab Panels */
+        /* Tab Panels Content Box */
         .tab-panels {
             width: 100%;
-            min-height: 140px;
+            min-height: 130px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 34px;
         }
 
         .tab-panel {
             display: none;
             width: 100%;
-            animation: fadeIn 0.2s ease-in-out;
+            animation: fadeIn 0.15s ease-in-out;
         }
 
         .tab-panel.active {
@@ -357,27 +372,27 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(2px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* Gallery Grid Layout */
+        /* Mock Gallery Grid matching original screenshot scaling */
         .preview-gallery {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+            gap: 14px;
             width: 100%;
         }
 
         .preview-gallery svg {
             width: 100%;
             height: auto;
-            background: rgba(13, 10, 28, 0.45);
-            border-radius: 10px;
+            background: rgba(8, 6, 14, 0.6);
+            border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 12px;
+            padding: 10px;
             box-sizing: border-box;
-            aspect-ratio: 1.5;
+            aspect-ratio: 1.48;
         }
 
         /* Description Panel */
@@ -387,6 +402,7 @@
             color: #9089A3;
             text-align: center;
             margin: 0;
+            padding: 0 10px;
         }
 
         /* Controls Panel */
@@ -406,23 +422,25 @@
             font-size: 15px;
         }
 
-        /* Centered Compact Play Button matching Summit Smash exactly */
+        /* Reference Play Button styling */
         .play-btn {
             background-color: #FF7A33;
-            color: #130F28;
+            color: #0b0813;
             border: none;
-            border-radius: 6px;
-            padding: 10px 45px;
+            border-radius: 24px;
+            padding: 12px 64px;
             font-family: 'Lexend', sans-serif;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
             cursor: pointer;
             transition: transform 0.1s ease, background-color 0.2s ease;
         }
 
         .play-btn:hover {
             background-color: #ff9154;
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
 
         .play-btn:active {
@@ -602,7 +620,6 @@
             const playBtn = document.getElementById('play-button');
             const menuOverlay = document.getElementById('menu-overlay');
 
-            // Handle Preview Tab Panel Toggles
             const tabButtons = document.querySelectorAll('.tab-btn');
             const tabPanels = document.querySelectorAll('.tab-panel');
 
@@ -621,13 +638,10 @@
                 });
             });
 
-            // Start Game Handler
             if (playBtn && menuOverlay) {
                 playBtn.addEventListener('click', function() {
-                    // Instantly drop overlay to zero visibility
                     menuOverlay.style.display = 'none';
 
-                    // Inject the official WebGL engine scripts dynamically.
                     var errorScript = document.createElement('script');
                     errorScript.src = "error_screen.bundle.js";
                     errorScript.defer = true;
