@@ -9,16 +9,13 @@
   --font-display: "Lexend", sans-serif;
   --font-body: "Inter", sans-serif;
 }
-
 * { box-sizing: border-box; }
-
 body {
   margin: 0;
   background: var(--sky);
   color: var(--text);
   font-family: var(--font-body);
 }
-
 .topnav {
   display: flex;
   align-items: center;
@@ -27,32 +24,27 @@ body {
   border-bottom: 1px solid var(--line);
   background: var(--sky-deep);
 }
-
 .nav-brand {
   color: var(--text);
   text-decoration: none;
   font-family: var(--font-display);
   font-weight: 600;
 }
-
 .nav-title {
   color: var(--muted);
   font-family: var(--font-display);
   font-size: 0.9rem;
 }
-
 main {
   display: flex;
   justify-content: center;
   padding: 2rem 1rem;
 }
-
 .arena-wrap {
   position: relative;
   width: 100%;
   max-width: 900px;
 }
-
 canvas {
   display: block;
   width: 100%;
@@ -61,6 +53,34 @@ canvas {
   border-radius: 12px;
   border: 1px solid var(--line);
 }
+
+/* ---------- Exit button (always visible over the arena) ---------- */
+
+.exit-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(19, 15, 40, 0.7);
+  border: 1px solid var(--line);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.exit-btn:hover {
+  background: rgba(255, 122, 51, 0.15);
+  border-color: var(--orange);
+}
+
+/* ---------- Overlays (preview / menu / winner) ---------- */
 
 .overlay {
   position: absolute;
@@ -74,30 +94,26 @@ canvas {
   border-radius: 12px;
   text-align: center;
   padding: 1.5rem;
+  overflow-y: auto;
 }
-
 .overlay.hidden { display: none; }
-
 .overlay h1 {
   font-family: var(--font-display);
   font-weight: 700;
   margin: 0;
   font-size: clamp(1.6rem, 5vw, 2.4rem);
 }
-
 .overlay p {
   color: var(--muted);
   margin: 0;
   max-width: 40ch;
 }
-
 .menu-buttons {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
   justify-content: center;
 }
-
 .menu-buttons button,
 #rematch {
   font-family: var(--font-display);
@@ -110,10 +126,8 @@ canvas {
   padding: 0.7rem 1.3rem;
   cursor: pointer;
 }
-
 .menu-buttons button:hover,
 #rematch:hover { opacity: 0.9; }
-
 .controls-info {
   display: flex;
   gap: 2rem;
@@ -122,12 +136,67 @@ canvas {
   margin-top: 0.5rem;
   font-size: 0.85rem;
 }
-
 .controls-info strong {
   display: block;
   font-family: var(--font-display);
   color: var(--text);
   margin-bottom: 0.2rem;
 }
-
 .controls-info span { color: var(--muted); }
+
+/* ---------- Preview screen ---------- */
+
+.preview-content {
+  max-width: 560px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.preview-tagline {
+  color: var(--muted);
+  max-width: 46ch;
+}
+
+.preview-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.preview-gallery svg {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, #130F28 0%, #1B1436 70%);
+}
+
+.preview-desc {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: left;
+  max-width: 46ch;
+}
+
+.play-btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--sky-deep);
+  background: var(--orange);
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 2.2rem;
+  cursor: pointer;
+}
+.play-btn:hover { opacity: 0.9; }
+
+@media (max-width: 560px) {
+  .preview-gallery { grid-template-columns: 1fr; }
+  .preview-desc { text-align: center; }
+}
