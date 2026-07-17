@@ -5,11 +5,13 @@
 // as a locked tile instead of a broken link.
 // ---------------------------------------------------------
 const games = [
-  { title: "old summit", slug: "smash", blurb: "A fast-paced multiplayer platform fighter inspired by Super Smash Bros.", ready: true },
-  { title: "Summit Smash", slug: "flash-test", blurb: "A fast-paced multiplayer platform fighter inspired by Super Smash Bros.", ready: true },
   { title: "Poly Track", slug: "polytrack", blurb: "A fast-paced racing game where players race through custom tracks, compete for the fastest times, and build their own courses.", ready: true },
-  { title: "Bomberman", slug: "bomberman", blurb: "A fast-paced multiplayer action game where players place bombs to be the last one standing.", ready: false },
+  { title: "Basketball Legends", slug: "basketball-legends", blurb: "A fast, chaotic arcade basketball game with iconic players and flashy special moves.", ready: true },
+  { title: "Basketball Stars", slug: "basketball-stars", blurb: "A skill‑based basketball game focused on timing, defense, and precision shooting.", ready: true },
   { title: "Untitled Game", slug: "game-3", blurb: "Not started yet.", ready: false },
+  { title: "Bomberman", slug: "bomberman", blurb: "A fast-paced multiplayer action game where players place bombs to be the last one standing.", ready: false },
+  { title: "old summit", slug: "smash", blurb: "A fast-paced multiplayer platform fighter inspired by Super Smash Bros.", ready: false },
+  { title: "Summit Smash", slug: "flash-test", blurb: "A fast-paced multiplayer platform fighter inspired by Super Smash Bros.", ready: false },
 
 ];
 const grid = document.getElementById("grid");
