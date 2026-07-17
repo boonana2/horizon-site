@@ -8,13 +8,19 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   });
 });
 
-// Clear menu overlay on Play click
+// Clear menu overlay and initialize game load on Play click
 document.getElementById("start-play").addEventListener("click", () => {
   document.getElementById("preview").classList.add("hidden");
   
-  // Set focus directly onto the game inside the frame box
   const iframe = document.getElementById("game-iframe");
   if (iframe) {
+    // Read the stored game file name and inject it into the iframe src attribute
+    const gameUrl = iframe.getAttribute("data-src");
+    if (gameUrl && !iframe.src) {
+      iframe.src = gameUrl;
+    }
+    
+    // Pass control focus into the loading viewport
     iframe.focus();
   }
 });
