@@ -1,4 +1,4 @@
-// 1. Preview Screen Tabs Switcher Configuration
+// Preview tabs panel setup
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -8,18 +8,13 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   });
 });
 
-// 2. Main Play Intercept Initialization
+// Clear menu overlay on Play click
 document.getElementById("start-play").addEventListener("click", () => {
-  // Hide the initial preview cover screen
   document.getElementById("preview").classList.add("hidden");
-
-  // Find the canvas elements that PolyTrack auto-generated on load
-  const gameCanvas = document.querySelector('canvas');
-  const container = document.getElementById('polytrack-container');
-
-  // Move the canvas into our stylized grid platform container
-  if (gameCanvas && container) {
-    container.appendChild(gameCanvas);
-    gameCanvas.focus();
+  
+  // Set focus directly onto the game inside the frame box
+  const iframe = document.getElementById("game-iframe");
+  if (iframe) {
+    iframe.focus();
   }
 });
