@@ -23,22 +23,6 @@ body {
   overflow-x: hidden;
 }
 
-/* CRUCIAL FIX: Stops the game's auto-generated canvas from taking over 
-   the full background and forces it to behave while the overlay is up */
-body > canvas {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  width: 100% !important;
-  max-width: 900px !important; /* Matches your layout max-width */
-  height: 500px !important;    /* Matches your frame height */
-  border-radius: 12px !important;
-  z-index: 0 !important;
-}
-
-/* Keep the rest of your style.css exactly the same below this... */
-
 /* ---------- Page-wide neon sunset backdrop ---------- */
 
 .page-scene {
