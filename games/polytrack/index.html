@@ -1,407 +1,109 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Horizon: Summit Smash</title>
-
+<title>Horizon: PolyTrack</title>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
-
 </head>
-
 <body>
-
-  <!-- Neon sunset backdrop -->
-
   <svg class="page-scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-
     <defs>
-
       <filter id="sun-glow" x="-80%" y="-80%" width="260%" height="260%">
-
         <feGaussianBlur stdDeviation="10" result="blur"/>
-
         <feMerge>
-
           <feMergeNode in="blur"/>
-
           <feMergeNode in="SourceGraphic"/>
-
         </feMerge>
-
       </filter>
-
       <clipPath id="sun-stripes">
-
         <rect x="380" y="330" width="440" height="34"/>
-
         <rect x="380" y="378" width="440" height="26"/>
-
         <rect x="380" y="418" width="440" height="20"/>
-
         <rect x="380" y="452" width="440" height="16"/>
-
         <rect x="380" y="480" width="440" height="12"/>
-
         <rect x="380" y="500" width="440" height="9"/>
-
       </clipPath>
-
       <radialGradient id="sun-fade" cx="50%" cy="50%" r="50%">
-
         <stop offset="0%" stop-color="#FF7A33" stop-opacity="0.9"/>
-
         <stop offset="100%" stop-color="#FF7A33" stop-opacity="0.55"/>
-
       </radialGradient>
-
     </defs>
-
-
-
-    <!-- ambient horizon glow -->
-
     <ellipse cx="600" cy="560" rx="520" ry="260" fill="rgba(255,122,51,0.14)"/>
-
-
-
-    <!-- stars -->
-
     <g fill="#F3EDF7">
-
       <circle cx="60" cy="60" r="1.6" opacity="0.6"/>
-
       <circle cx="150" cy="140" r="1" opacity="0.35"/>
-
       <circle cx="100" cy="230" r="1.3" opacity="0.5"/>
-
       <circle cx="220" cy="90" r="1" opacity="0.4"/>
-
       <circle cx="70" cy="300" r="1.4" opacity="0.45"/>
-
       <circle cx="300" cy="60" r="1" opacity="0.35"/>
-
       <circle cx="330" cy="180" r="1.2" opacity="0.4"/>
-
       <circle cx="1140" cy="65" r="1.6" opacity="0.6"/>
-
       <circle cx="1050" cy="145" r="1" opacity="0.35"/>
-
       <circle cx="1100" cy="235" r="1.3" opacity="0.5"/>
-
       <circle cx="980" cy="95" r="1" opacity="0.4"/>
-
       <circle cx="1130" cy="300" r="1.4" opacity="0.45"/>
-
       <circle cx="900" cy="60" r="1" opacity="0.35"/>
-
       <circle cx="870" cy="190" r="1.2" opacity="0.4"/>
-
     </g>
-
-
-
-    <!-- neon sun -->
-
     <circle cx="600" cy="440" r="200" fill="url(#sun-fade)" filter="url(#sun-glow)"/>
-
     <circle cx="600" cy="440" r="200" fill="#FF7A33" clip-path="url(#sun-stripes)" filter="url(#sun-glow)"/>
-
-
-
-    <!-- mountain layers, back to front -->
-
     <path d="M0,800 L0,520 L80,470 L160,510 L260,440 L360,500 L460,430 L560,490 L660,450 L760,510 L860,440 L960,500 L1060,460 L1160,510 L1200,480 L1200,800 Z" fill="#2A2050" opacity="0.65"/>
-
     <path d="M0,800 L0,580 L90,540 L190,590 L300,520 L410,580 L520,500 L630,570 L740,510 L850,580 L960,520 L1070,580 L1160,540 L1200,570 L1200,800 Z" fill="#251B23" opacity="0.9"/>
-
     <path d="M0,800 L0,660 L100,620 L220,660 L340,600 L460,650 L580,610 L700,660 L820,600 L940,650 L1060,610 L1160,650 L1200,630 L1200,800 Z" fill="#130F28"/>
-
-
-
-    <!-- pine trees along the foreground ridge -->
-
-    <g fill="#0D0A1C">
-
-      <g transform="translate(120,600) scale(0.9)">
-
-        <polygon points="20,0 0,26 40,26"/>
-
-        <polygon points="20,14 -4,44 44,44"/>
-
-        <rect x="16" y="44" width="8" height="14"/>
-
-      </g>
-
-      <g transform="translate(175,615) scale(0.7)">
-
-        <polygon points="20,0 0,26 40,26"/>
-
-        <polygon points="20,14 -4,44 44,44"/>
-
-        <rect x="16" y="44" width="8" height="14"/>
-
-      </g>
-
-      <g transform="translate(250,608) scale(0.6)">
-
-        <polygon points="20,0 0,26 40,26"/>
-
-        <polygon points="20,14 -4,44 44,44"/>
-
-        <rect x="16" y="44" width="8" height="14"/>
-
-      </g>
-
-      <g transform="translate(970,600) scale(0.85)">
-
-        <polygon points="20,0 0,26 40,26"/>
-
-        <polygon points="20,14 -4,44 44,44"/>
-
-        <rect x="16" y="44" width="8" height="14"/>
-
-      </g>
-
-      <g transform="translate(1030,618) scale(0.65)">
-
-        <polygon points="20,0 0,26 40,26"/>
-
-        <polygon points="20,14 -4,44 44,44"/>
-
-        <rect x="16" y="44" width="8" height="14"/>
-
-      </g>
-
-      <g transform="translate(1095,606) scale(0.75)">
-
-        <polygon points="20,0 0,26 40,26"/>
-
-        <polygon points="20,14 -4,44 44,44"/>
-
-        <rect x="16" y="44" width="8" height="14"/>
-
-      </g>
-
-    </g>
-
   </svg>
 
-
-
   <nav class="topnav">
-
     <a href="../../index.html" class="nav-brand">🌅 Horizon</a>
-
     <div class="nav-right">
-
-      <span class="nav-title">Summit Smash</span>
-
+      <span class="nav-title">PolyTrack</span>
       <a href="../../index.html" class="exit-btn" aria-label="Exit to Horizon">✕</a>
-
     </div>
-
   </nav>
 
   <main>
-
     <div class="arena-wrap">
-
-      <canvas id="game" width="900" height="500"></canvas>
-
-
-
-      <!-- Preview screen: shown first, before any gameplay -->
+      <iframe id="game-frame" src="polytrack.html" allow="autoplay; keyboard; fullscreen" scrolling="no"></iframe>
 
       <div id="preview" class="overlay">
-
         <div class="preview-content">
-
-          <h1>Summit Smash</h1>
-
-          <p class="preview-tagline">A fast-paced multiplayer platform fighter inspired by Super Smash Bros.</p>
-
-
+          <h1>PolyTrack</h1>
+          <p class="preview-tagline">A fast-paced low-poly racing game with intense loops, drifts, and a built-in track editor.</p>
 
           <div class="tabs" role="tablist">
-
-            <button class="tab-btn active" data-tab="gallery" type="button">Gallery</button>
-
-            <button class="tab-btn" data-tab="description" type="button">Description</button>
-
+            <button class="tab-btn active" data-tab="description" type="button">Description</button>
             <button class="tab-btn" data-tab="controls" type="button">Controls</button>
-
           </div>
-
-
 
           <div class="tab-panels">
-
-            <div class="tab-panel active" data-panel="gallery">
-
-              <div class="preview-gallery">
-
-                <svg viewBox="0 0 200 130" role="img" aria-label="Two fighters facing off on the platform">
-
-                  <rect x="20" y="96" width="160" height="14" fill="#251B23"/>
-
-                  <rect x="20" y="96" width="160" height="3" fill="#FF7A33"/>
-
-                  <rect x="55" y="58" width="20" height="38" fill="#FF7A33"/>
-
-                  <rect x="63" y="66" width="6" height="6" fill="#130F28"/>
-
-                  <rect x="125" y="58" width="20" height="38" fill="#6EA8FF"/>
-
-                  <rect x="131" y="66" width="6" height="6" fill="#130F28"/>
-
-                </svg>
-
-                <svg viewBox="0 0 200 130" role="img" aria-label="A fighter knocked into the air after an attack">
-
-                  <rect x="20" y="96" width="160" height="14" fill="#251B23"/>
-
-                  <rect x="20" y="96" width="160" height="3" fill="#FF7A33"/>
-
-                  <rect x="55" y="58" width="20" height="38" fill="#FF7A33"/>
-
-                  <rect x="63" y="66" width="6" height="6" fill="#130F28"/>
-
-                  <rect x="75" y="60" width="30" height="30" fill="rgba(255,255,255,0.5)"/>
-
-                  <rect x="140" y="20" width="20" height="38" fill="#6EA8FF"/>
-
-                  <rect x="146" y="28" width="6" height="6" fill="#130F28"/>
-
-                </svg>
-
-                <svg viewBox="0 0 200 130" role="img" aria-label="Damage percentage and stocks display">
-
-                  <rect x="0" y="0" width="200" height="130" fill="none"/>
-
-                  <text x="16" y="28" font-family="Lexend, sans-serif" font-weight="600" font-size="13" fill="#F3EDF7">Blaze</text>
-
-                  <text x="16" y="50" font-family="Lexend, sans-serif" font-weight="700" font-size="20" fill="#FF7A33">64%</text>
-
-                  <text x="16" y="68" font-family="Inter, sans-serif" font-size="11" fill="#9089A3">Stocks: 2</text>
-
-                  <text x="184" y="28" text-anchor="end" font-family="Lexend, sans-serif" font-weight="600" font-size="13" fill="#F3EDF7">Volt</text>
-
-                  <text x="184" y="50" text-anchor="end" font-family="Lexend, sans-serif" font-weight="700" font-size="20" fill="#FF7A33">31%</text>
-
-                  <text x="184" y="68" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#9089A3">Stocks: 3</text>
-
-                </svg>
-
-              </div>
-
-            </div>
-
-
-
-            <div class="tab-panel" data-panel="description">
-
+            <div class="tab-panel active" data-panel="description">
               <p class="preview-desc">
-
-                Knock your opponent off the platform to take their stock — the more damage they've taken,
-
-                the farther they fly. Land hits to rack up damage percent, then finish with a strong knockback
-
-                to send them off the edge. Play locally with a friend or test yourself against the CPU.
-
-                First fighter to lose all three stocks loses the match.
-
+                PolyTrack is a high-speed stunt racing game inspired by TrackMania. 
+                Race against the clock, constantly shifting your line to shave milliseconds off your personal records. 
+                Complete tracks, conquer immense structural loops, or jump directly into the builder to create and test your own track creations.
               </p>
-
             </div>
-
-
 
             <div class="tab-panel" data-panel="controls">
-
               <div class="controls-info">
-
                 <div>
-
-                  <strong>Player 1</strong>
-
-                  <span>A / D move · W jump · F attack</span>
-
+                  <strong>Steering Controls</strong>
+                  <span>WASD / Arrow Keys · Drive & Steer</span>
                 </div>
-
                 <div>
-
-                  <strong>Player 2</strong>
-
-                  <span>&larr; / &rarr; move · &uarr; jump · / attack</span>
-
+                  <strong>System Keys</strong>
+                  <span>R · Quick Restart Match</span>
                 </div>
-
               </div>
-
             </div>
-
           </div>
 
-
-
           <button id="start-play" class="play-btn">Play</button>
-
         </div>
-
       </div>
-
-
-
-      <!-- Mode select menu: shown after clicking Play on the preview -->
-
-      <div id="menu" class="overlay hidden">
-
-        <h1>Summit Smash</h1>
-
-        <p>Knock your opponent off the platform.</p>
-
-        <div class="menu-buttons">
-
-          <button id="mode-2p">2 Player</button>
-
-          <button id="mode-cpu">Vs CPU</button>
-
-        </div>
-
-        <button id="back-to-preview" class="back-btn">&larr; Back</button>
-
-      </div>
-
-
-
-      <div id="winner" class="overlay hidden">
-
-        <h1 id="winner-text">Player 1 Wins!</h1>
-
-        <div class="menu-buttons">
-
-          <button id="rematch">Play Again</button>
-
-          <button id="winner-back" class="back-btn">Back to Preview</button>
-
-        </div>
-
-      </div>
-
     </div>
-
   </main>
-
   <script src="game.js"></script>
-
 </body>
-
 </html>
