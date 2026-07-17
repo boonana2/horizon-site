@@ -224,3 +224,19 @@ main {
 @media (max-width: 768px) {
   #game-frame { height: 350px; }
 }
+
+/* ---------- Image Gallery Adaptations ---------- */
+.preview-gallery img {
+  width: 100%;
+  height: 130px; /* Keeps the uniform height matching your old layout grid */
+  object-fit: cover; /* Crops the images cleanly without squishing their aspect ratios */
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #000;
+  display: block;
+}
+
+.gallery-item {
+  position: relative;
+  width: 100%;
+}
