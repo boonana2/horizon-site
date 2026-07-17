@@ -30,9 +30,7 @@
         <stop offset="100%" stop-color="#FF7A33" stop-opacity="0.55"/>
       </radialGradient>
     </defs>
-
     <ellipse cx="600" cy="560" rx="520" ry="260" fill="rgba(255,122,51,0.14)"/>
-
     <g fill="#F3EDF7">
       <circle cx="60" cy="60" r="1.6" opacity="0.6"/>
       <circle cx="150" cy="140" r="1" opacity="0.35"/>
@@ -49,156 +47,59 @@
       <circle cx="900" cy="60" r="1" opacity="0.35"/>
       <circle cx="870" cy="190" r="1.2" opacity="0.4"/>
     </g>
-
     <circle cx="600" cy="440" r="200" fill="url(#sun-fade)" filter="url(#sun-glow)"/>
     <circle cx="600" cy="440" r="200" fill="#FF7A33" clip-path="url(#sun-stripes)" filter="url(#sun-glow)"/>
-
     <path d="M0,800 L0,520 L80,470 L160,510 L260,440 L360,500 L460,430 L560,490 L660,450 L760,510 L860,440 L960,500 L1060,460 L1160,510 L1200,480 L1200,800 Z" fill="#2A2050" opacity="0.65"/>
     <path d="M0,800 L0,580 L90,540 L190,590 L300,520 L410,580 L520,500 L630,570 L740,510 L850,580 L960,520 L1070,580 L1160,540 L1200,570 L1200,800 Z" fill="#251B23" opacity="0.9"/>
     <path d="M0,800 L0,660 L100,620 L220,660 L340,600 L460,650 L580,610 L700,660 L820,600 L940,650 L1060,610 L1160,650 L1200,630 L1200,800 Z" fill="#130F28"/>
-
-    <g fill="#0D0A1C">
-      <g transform="translate(120,600) scale(0.9)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-      <g transform="translate(175,615) scale(0.7)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-      <g transform="translate(250,608) scale(0.6)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-      <g transform="translate(970,600) scale(0.85)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-      <g transform="translate(1030,618) scale(0.65)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-      <g transform="translate(1095,606) scale(0.75)">
-        <polygon points="20,0 0,26 40,26"/>
-        <polygon points="20,14 -4,44 44,44"/>
-        <rect x="16" y="44" width="8" height="14"/>
-      </g>
-    </g>
   </svg>
 
   <nav class="topnav">
     <a href="../../index.html" class="nav-brand">🌅 Horizon</a>
     <div class="nav-right">
       <span class="nav-title">PolyTrack</span>
-      <button id="show-preview-btn" class="back-btn" style="margin-top: 0; padding: 0.35rem 0.8rem; display: none; margin-right: 0.5rem;" type="button">Preview</button>
       <a href="../../index.html" class="exit-btn" aria-label="Exit to Horizon">✕</a>
     </div>
   </nav>
 
   <main>
     <div class="arena-wrap">
-      <div id="game-container">
-        <iframe id="game-iframe" src="" allow="autoplay; keyboard; focus"></iframe>
-      </div>
+      <iframe id="game-frame" src="polytrack.html" allow="autoplay; keyboard; fullscreen" scrolling="no"></iframe>
 
       <div id="preview" class="overlay">
         <div class="preview-content">
           <h1>PolyTrack</h1>
-          <p class="preview-tagline">A fast-paced low-poly physics racer and custom track builder.</p>
+          <p class="preview-tagline">A fast-paced low-poly racing game with intense loops, drifts, and a built-in track editor.</p>
 
           <div class="tabs" role="tablist">
-            <button class="tab-btn active" data-tab="gallery" type="button">Gallery</button>
-            <button class="tab-btn" data-tab="description" type="button">Description</button>
+            <button class="tab-btn active" data-tab="description" type="button">Description</button>
             <button class="tab-btn" data-tab="controls" type="button">Controls</button>
           </div>
 
           <div class="tab-panels">
-            <div class="tab-panel active" data-panel="gallery">
-              <div class="preview-gallery">
-                <svg viewBox="0 0 200 130" role="img" aria-label="A car riding along a curved neon track">
-                  <line x1="0" y1="90" x2="200" y2="90" stroke="#1B1436" stroke-width="1"/>
-                  <path d="M15 100 Q 60 100 100 60 T 185 20" fill="none" stroke="#FF7A33" stroke-width="8" stroke-linecap="round"/>
-                  <path d="M15 100 Q 60 100 100 60 T 185 20" fill="none" stroke="#F3EDF7" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round"/>
-                  <g transform="translate(95,50) rotate(-30)">
-                    <rect x="-12" y="-6" width="24" height="12" rx="3" fill="#6EA8FF" stroke="#F3EDF7" stroke-width="1"/>
-                    <rect x="2" y="-4" width="6" height="8" rx="1" fill="#130F28"/>
-                    <rect x="-9" y="-8" width="5" height="2" fill="#F3EDF7"/>
-                    <rect x="4" y="-8" width="5" height="2" fill="#F3EDF7"/>
-                    <rect x="-9" y="6" width="5" height="2" fill="#F3EDF7"/>
-                    <rect x="4" y="6" width="5" height="2" fill="#F3EDF7"/>
-                  </g>
-                </svg>
-
-                <svg viewBox="0 0 200 130" role="img" aria-label="Track builder interface showing a grid and road pieces">
-                  <g stroke="#1B1436" stroke-width="1">
-                    <line x1="20" y1="0" x2="20" y2="130"/>
-                    <line x1="60" y1="0" x2="60" y2="130"/>
-                    <line x1="100" y1="0" x2="100" y2="130"/>
-                    <line x1="140" y1="0" x2="140" y2="130"/>
-                    <line x1="180" y1="0" x2="180" y2="130"/>
-                    <line x1="0" y1="20" x2="200" y2="20"/>
-                    <line x1="0" y1="50" x2="200" y2="50"/>
-                    <line x1="0" y1="80" x2="200" y2="80"/>
-                    <line x1="0" y1="110" x2="200" y2="110"/>
-                  </g>
-                  <rect x="60" y="50" width="40" height="30" fill="none" stroke="#FF7A33" stroke-width="4" stroke-dasharray="2 2"/>
-                  <path d="M 20 65 L 60 65" stroke="#382C4A" stroke-width="8"/>
-                  <path d="M 100 65 L 140 65 Q 165 65 165 95 L 165 110" fill="none" stroke="#382C4A" stroke-width="8"/>
-                  <path d="M 80 65 L 75 80 L 70 75 Z" fill="#F3EDF7"/>
-                  <rect x="150" y="10" width="40" height="30" rx="4" fill="#251B23" stroke="#FF7A33" stroke-width="1.5"/>
-                  <path d="M 160 25 Q 170 15 180 25" fill="none" stroke="#FF7A33" stroke-width="4"/>
-                </svg>
-
-                <svg viewBox="0 0 200 130" role="img" aria-label="Timer HUD showing speed and time">
-                  <rect x="0" y="0" width="200" height="130" fill="none"/>
-                  <circle cx="100" cy="90" r="35" fill="none" stroke="#1B1436" stroke-width="6" stroke-dasharray="140 180" stroke-linecap="round" transform="rotate(-180 100 90)"/>
-                  <circle cx="100" cy="90" r="35" fill="none" stroke="#FF7A33" stroke-width="6" stroke-dasharray="90 180" stroke-linecap="round" transform="rotate(-180 100 90)"/>
-                  <line x1="100" y1="90" x2="80" y2="65" stroke="#F3EDF7" stroke-width="3" stroke-linecap="round"/>
-                  <text x="100" y="105" text-anchor="middle" font-family="Lexend, sans-serif" font-weight="700" font-size="14" fill="#F3EDF7">184 KM/H</text>
-                  <text x="16" y="32" font-family="Lexend, sans-serif" font-weight="600" font-size="14" fill="#9089A3">TIME</text>
-                  <text x="16" y="56" font-family="Lexend, sans-serif" font-weight="700" font-size="24" fill="#FF7A33">00:24.83</text>
-                  <text x="184" y="32" text-anchor="end" font-family="Lexend, sans-serif" font-weight="600" font-size="12" fill="#9089A3">BEST</text>
-                  <text x="184" y="52" text-anchor="end" font-family="Lexend, sans-serif" font-weight="700" font-size="16" fill="#F3EDF7">00:23.15</text>
-                </svg>
-              </div>
-            </div>
-
-            <div class="tab-panel" data-panel="description">
+            <div class="tab-panel active" data-panel="description">
               <p class="preview-desc">
-                Welcome to PolyTrack! An arcade-style, physics-based racing game and intuitive track builder. 
-                Accelerate through loops, perform massive jumps, and drift around sharp corners to achieve the 
-                best possible time. Use the built-in level editor to easily snap track pieces together, build 
-                insane custom courses, and test them instantly. Push your driving skills to the limit and 
-                optimize your runs down to the millisecond!
+                PolyTrack is a high-speed stunt racing game inspired by TrackMania. 
+                Race against the clock, constantly shifting your line to shave milliseconds off your personal records. 
+                Complete tracks, conquer immense structural loops, or jump directly into the builder to create and test your own track creations.
               </p>
             </div>
 
             <div class="tab-panel" data-panel="controls">
-              <div class="controls-info" style="gap: 1.5rem; text-align: left; max-width: 500px; width: 100%;">
-                <div style="flex: 1; min-width: 140px;">
-                  <strong style="display: block; font-family: var(--font-display); color: var(--text); margin-bottom: 0.4rem;">Driving Controls</strong>
-                  <span style="color: var(--muted); display: block; margin-bottom: 0.2rem;">W / &uarr; &middot; Accelerate</span>
-                  <span style="color: var(--muted); display: block; margin-bottom: 0.2rem;">S / &darr; &middot; Brake / Reverse</span>
-                  <span style="color: var(--muted); display: block; margin-bottom: 0.2rem;">A/D / &larr;/&rarr; &middot; Steering</span>
-                  <span style="color: var(--muted); display: block; margin-bottom: 0.2rem;">R &middot; Quick Restart Run</span>
+              <div class="controls-info">
+                <div>
+                  <strong>Steering Controls</strong>
+                  <span>WASD / Arrow Keys · Drive & Steer</span>
                 </div>
-                <div style="flex: 1; min-width: 140px;">
-                  <strong style="display: block; font-family: var(--font-display); color: var(--text); margin-bottom: 0.4rem;">Track Editor</strong>
-                  <span style="color: var(--muted); display: block; margin-bottom: 0.2rem;">Left Click &middot; Place Track Piece</span>
-                  <span style="color: var(--muted); display: block; margin-bottom: 0.2rem;">Right Click &middot; Delete Piece</span>
-                  <span style="color: var(--muted); display: block; margin-bottom: 0.2rem;">R &middot; Rotate Track Piece</span>
-                  <span style="color: var(--muted); display: block; margin-bottom: 0.2rem;">Mouse Scroll &middot; Zoom In/Out</span>
+                <div>
+                  <strong>System Keys</strong>
+                  <span>R · Quick Restart Match</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <button id="start-play" class="play-btn" type="button">Play</button>
+          <button id="start-play" class="play-btn">Play</button>
         </div>
       </div>
     </div>
