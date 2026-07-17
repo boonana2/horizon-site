@@ -1,4 +1,4 @@
-// Preview tabs switching: Gallery / Description / Controls
+// Preview tabs switcher setup
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -8,22 +8,13 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   });
 });
 
-const previewOverlay = document.getElementById("preview");
-const gameIframe = document.getElementById("game-iframe");
-const showPreviewBtn = document.getElementById("show-preview-btn");
-const playBtn = document.getElementById("start-play");
-
-// Start playing: Hide preview overlay, show navbar "Preview" button, and load the embedded game
-playBtn.addEventListener("click", () => {
-  previewOverlay.classList.add("hidden");
-  showPreviewBtn.style.display = "inline-block";
-  gameIframe.src = "polytrack.html"; // Loads the local PolyTrack game
-  gameIframe.focus();
-});
-
-// Back to Preview button in navbar: Show preview overlay, hide navbar button, and unload the game to clear memory
-showPreviewBtn.addEventListener("click", () => {
-  previewOverlay.classList.remove("hidden");
-  showPreviewBtn.style.display = "none";
-  gameIframe.src = "about:blank"; // Safe unload prevents lingering audio or WebGL execution in the background
+// Hide the homepage menu overlay and target keyboard inputs directly into the iframe
+document.getElementById("start-play").addEventListener("click", () => {
+  document.getElementById("preview").classList.add("hidden");
+  
+  // Shifts keyboard active state into the game container window directly
+  const frame = document.getElementById("game-frame");
+  if (frame) {
+    frame.focus();
+  }
 });
