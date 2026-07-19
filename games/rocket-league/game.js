@@ -21,7 +21,7 @@ document.getElementById("start-play").addEventListener("click", () => {
     // Create the iframe dynamically
     const iframe = document.createElement("iframe");
     iframe.id = "game-iframe";
-    iframe.src = "rocketleague.html"; // Load the game cleanly
+    iframe.src = "rocketsoccerderby.html"; // Load the game cleanly
     
     // Append it to our container
     container.appendChild(iframe);
