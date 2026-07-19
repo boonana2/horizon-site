@@ -23,6 +23,7 @@ const games = [
   { title: "Papa's Sushiria", slug: "psushiria", blurb: "A time‑management cooking simulator where you run a restaurant, take orders, prepare food, and serve customers as fast and accurately as possible.", ready: true },
   { title: "Papa's Taco Mia", slug: "ptacomia", blurb: "A time‑management cooking simulator where you run a restaurant, take orders, prepare food, and serve customers as fast and accurately as possible.", ready: true },
   { title: "Papa's Wingeria", slug: "pwingeria", blurb: "A time‑management cooking simulator where you run a restaurant, take orders, prepare food, and serve customers as fast and accurately as possible.", ready: true },
+  { title: "Paper.io", slug: "paperio", blurb: "A territory‑capture game where you draw lines to expand your area while protecting your trail from other players.", ready: true },
   { title: "Ping Pong", slug: "pingpong", blurb: "A fast, close‑range table sport where two players hit a lightweight ball back and forth using small paddles on a divided table.", ready: true },
   { title: "Poly Track", slug: "polytrack", blurb: "A fast-paced racing game where players race through custom tracks, compete for the fastest times, and build their own courses.", ready: true },
   { title: "Rocket League", slug: "rocket-league", blurb: "A high‑speed sports game where you drive rocket‑powered cars to hit a giant ball and score goals.", ready: true },
