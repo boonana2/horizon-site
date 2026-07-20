@@ -51,6 +51,30 @@ a { color: inherit; }
 
 .nav-emoji { font-size: 1.15rem; }
 
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.nav-link:hover {
+  color: var(--orange);
+}
+
+.nav-link-active {
+  color: var(--orange);
+}
+
 .nav-search {
   font-family: var(--font-body);
   font-size: 0.9rem;
@@ -252,47 +276,31 @@ footer {
   .tile { transition: none; }
 }
 
-.nav-left,
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.nav-link {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 0.9rem;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.nav-link:hover {
-  color: var(--orange);
-}
-
-/* ---------- Nav active state ---------- */
-
-.nav-link-active {
-  color: var(--orange);
-}
-
 /* ---------- Info page ---------- */
 
 .info-section {
   margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.info-section .grid-heading {
+  display: block;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.75rem;
 }
 
 .info-text {
   color: var(--muted);
   font-size: 0.95rem;
   max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .info-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -305,6 +313,7 @@ footer {
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 1.1rem 1.4rem;
+  min-width: 200px;
   transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -331,6 +340,9 @@ footer {
 
 .faq-item {
   margin-bottom: 1.25rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .faq-item h3 {
@@ -344,35 +356,4 @@ footer {
   margin: 0;
   color: var(--muted);
   font-size: 0.9rem;
-}
-
-.info-section {
-  text-align: center;
-}
-
-.info-text {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.info-cards {
-  justify-content: center;
-}
-
-.faq-item {
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.info-section .grid-heading {
-  justify-content: center;
-}
-
-.info-section .grid-heading h2 {
-  text-align: center;
-}
-
-.info-cards {
-  justify-content: center;
 }
