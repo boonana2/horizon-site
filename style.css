@@ -366,3 +366,13 @@ footer {
   white-space: nowrap;
   text-align: center;      /* explicit centering, in case it wasn't inheriting */
 }
+
+.nav-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;   /* already there, keeping it */
+  line-height: 1.4;
+  pointer-events: none;
+}
