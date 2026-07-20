@@ -364,3 +364,15 @@ footer {
   margin-left: auto;
   margin-right: auto;
 }
+
+.info-section .grid-heading {
+  justify-content: center;
+}
+
+.info-section .grid-heading h2 {
+  text-align: center;
+}
+
+.info-cards {
+  justify-content: center;
+}
