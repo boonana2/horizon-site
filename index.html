@@ -11,7 +11,6 @@
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
-
   <nav class="topnav">
   <div class="nav-left">
     <a href="index.html" class="nav-brand">
@@ -24,7 +23,6 @@
     <input type="search" id="search" class="nav-search" placeholder="Search games…" aria-label="Search games">
   </div>
 </nav>
-
   <header class="hero">
     <svg class="stars" viewBox="0 0 1200 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <circle cx="55" cy="50" r="1.6" fill="#F3EDF7" opacity="0.7"/>
@@ -46,9 +44,7 @@
       <circle cx="1050" cy="265" r="1.4" fill="#F3EDF7" opacity="0.55"/>
       <circle cx="895" cy="185" r="1" fill="#F3EDF7" opacity="0.4"/>
     </svg>
-
     <div class="glow" aria-hidden="true"></div>
-
     <svg class="sun-art" viewBox="0 0 400 180" aria-hidden="true">
       <defs>
         <filter id="soft-glow" x="-60%" y="-60%" width="220%" height="220%">
@@ -68,32 +64,26 @@
       <path d="M30,180 A170,170 0 0 1 370,180" fill="none" stroke="#FF7A33" stroke-width="1" opacity="0.3" filter="url(#soft-glow)"/>
       <path d="M50,180 A150,150 0 0 1 350,180 Z" fill="#FF7A33" clip-path="url(#stripes)" filter="url(#soft-glow)"/>
     </svg>
-
     <div class="hero-inner">
       <h1 class="wordmark">Horizon</h1>
-      <h2>Bookmark this URL: https://horizon7.s.gy/site</h2>
+      <p class="bookmark-url">Bookmark this URL: <a href="https://horizon7.s.gy/site">https://horizon7.s.gy/site</a></p>
     </div>
-
     <div class="divider" aria-hidden="true"></div>
   </header>
-
   <main>
     <section class="grid-section">
       <div class="grid-heading">
         <h2>Games</h2>
         <span class="count" id="game-count">0 live</span>
       </div>
-
       <div class="grid" id="grid">
         <!-- rendered by script.js -->
       </div>
     </section>
-
     <section class="empty-note">
       <p>More games coming soon!</p>
     </section>
   </main>
-
   <script src="script.js"></script>
 </body>
 </html>
