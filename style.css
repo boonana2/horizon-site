@@ -345,3 +345,22 @@ footer {
   color: var(--muted);
   font-size: 0.9rem;
 }
+
+.info-section {
+  text-align: center;
+}
+
+.info-text {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.info-cards {
+  justify-content: center;
+}
+
+.faq-item {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
