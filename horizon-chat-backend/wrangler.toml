@@ -5,12 +5,12 @@ compatibility_date = "2024-11-01"
 # CORS: set this to your actual site origin before deploying.
 # You can also read it from an environment var if you prefer.
 [vars]
-ALLOWED_ORIGIN = "https://your-site.pages.dev"
+ALLOWED_ORIGIN = "https://horizon.x67.workers.dev"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "horizon_chat"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "77db2ff5-2a94-406d-bfb2-ce6e0b1b8148"
 
 [[durable_objects.bindings]]
 name = "CHAT_ROOM"
