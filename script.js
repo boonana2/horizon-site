@@ -1,7 +1,7 @@
 const games = [
   { title: "Angry Birds", slug: "angry-birds", blurb: "A physics‑based puzzle game where you launch different birds from a slingshot to destroy structures and knock out enemy pigs.", ready: true },
   { title: "Basketball Legends", slug: "basketball-legends", blurb: "A fast, chaotic arcade basketball game with iconic players and flashy special moves.", ready: true },
-  { title: "Chess", slug: "chess", blurb: "A strategic board game where two players move different‑ability pieces on an 8×8 grid to checkmate the opponent’s king.", ready: true },
+  { title: "Chess", slug: "chess", blurb: "A strategic board game where two players move different‑ability pieces on an 8×8 grid to checkmate the opponent's king.", ready: true },
   { title: "Crossy Road", slug: "crossy-road", blurb: "An endless arcade hopper where players guide characters across traffic, rivers, and obstacles while aiming for the longest possible run.", ready: true },
   { title: "Fireboy & Watergirl: Forest", slug: "fbwg:forest", blurb: "A puzzle-platformer where players guide both characters through several puzzles to reach the exit of each level.", ready: true },
   { title: "Fireboy & Watergirl: Light", slug: "fbwg:light", blurb: "A puzzle-platformer where players guide both characters through several puzzles to reach the exit of each level.", ready: true },
@@ -34,7 +34,7 @@ const games = [
   { title: "Slope", slug: "slope", blurb: "A fast downhill game where you control a speeding ball while dodging obstacles.", ready: true },
   { title: "Subway Surfers", slug: "subway-surfers", blurb: "An endless‑runner where you sprint down train tracks, dodge obstacles, and collect coins while escaping the inspector.", ready: true },
   { title: "Superhot", slug: "superhot", blurb: "A first‑person action shooter game where time only moves when you move.", ready: true },
-  { title: "Tennis", slug: "tennis", blurb: "A fast, court‑based sport where players hit a bouncing ball over a net using rackets, trying to land shots inbounds that the opponent can’t return.", ready: true },
+  { title: "Tennis", slug: "tennis", blurb: "A fast, court‑based sport where players hit a bouncing ball over a net using rackets, trying to land shots inbounds that the opponent can't return.", ready: true },
   { title: "Tme Shooter 2", slug: "ts2", blurb: "A tactical first‑person action game where time only moves when the player moves, creating strategic combat encounters.", ready: true },
   { title: "Tme Shooter 3", slug: "ts3", blurb: "A tactical first‑person action game where time only moves when the player moves, creating strategic combat encounters.", ready: true },
   { title: "Tiny Fishing", slug: "tiny-fishing", blurb: "A simple click‑and‑upgrade game where you drop a line, catch stacked fish, and earn coins to extend your line and increase your haul.", ready: true },
@@ -42,39 +42,142 @@ const games = [
   { title: "2048", slug: "2048", blurb: "A sliding‑tile puzzle where you combine matching numbers to reach the 2048 tile.", ready: true },
   { title: "8-Ball", slug: "8ball", blurb: "A classic billiards game where you aim, shoot, and sink all your assigned balls before finishing with the 8‑ball.", ready: true },
 
-  
   { title: "Untitled Game", slug: "game-3", blurb: "Not started yet.", ready: false },
   { title: "Bomberman", slug: "bomberman", blurb: "A fast-paced multiplayer action game where players place bombs to be the last one standing.", ready: false },
   { title: "whatever claude made", slug: "smash", blurb: "a", ready: false },
   { title: "Summit Smash", slug: "flash-test", blurb: "A fast-paced multiplayer platform fighter inspired by Super Smash Bros.", ready: false },
 ];
+
+// ---------------------------------------------------------
+// Section definitions: which slugs belong to which category,
+// and in what order sections appear on the page. Any ready
+// game not listed here falls into "More Games" as a safety
+// net so nothing silently disappears if this list drifts out
+// of sync with the games array above.
+// ---------------------------------------------------------
+const sectionDefs = [
+  {
+    name: "Sports",
+    slugs: ["basketball-legends", "pingpong", "rocket-league", "tennis", "8ball"],
+  },
+  {
+    name: "Cooking",
+    slugs: [
+      "pbakeria", "pburgeria", "pcheeseria", "pcupcakeria", "pdonuteria",
+      "pfreezeria", "photdoggeria", "ppancakeria", "ppastaria", "ppizzeria",
+      "pscooperia", "psushiria", "ptacomia", "pwingeria",
+    ],
+  },
+  {
+    name: "Action & Shooters",
+    slugs: ["rs1", "rs2", "superhot", "ts2", "ts3"],
+  },
+  {
+    name: "Puzzle & Platformers",
+    slugs: ["angry-birds", "chess", "fbwg:forest", "fbwg:light", "fbwg:ice", "fbwg:crystal", "gd", "gd-vibes", "2048"],
+  },
+  {
+    name: "Arcade & Racing",
+    slugs: ["crossy-road", "helix", "idle-breakout", "paperio", "polytrack", "slope", "subway-surfers", "tiny-fishing", "tomb"],
+  },
+];
+
 const grid = document.getElementById("grid");
 const count = document.getElementById("game-count");
 const readyGames = games.filter(g => g.ready);
 count.textContent = `${readyGames.length} live`;
-games.forEach((game, i) => {
+
+const bySlug = new Map(games.map(g => [g.slug, g]));
+const usedSlugs = new Set();
+
+function makeTile(game, indexLabel) {
   const card = document.createElement(game.ready ? "a" : "div");
   card.className = "tile" + (game.ready ? "" : " locked");
   if (game.ready) card.href = `games/${game.slug}/index.html`;
   card.dataset.title = game.title.toLowerCase();
   card.innerHTML = `
-    <span class="tile-num">${String(i + 1).padStart(2, "0")}</span>
+    <span class="tile-num">${indexLabel}</span>
     <h3>${game.title}</h3>
     <p>${game.blurb}</p>
     <span class="tile-status">${game.ready ? "Play" : "Locked"}</span>
   `;
-  grid.appendChild(card);
+  return card;
+}
+
+// Reuses the existing .grid class for tile layout, so section
+// grids look identical to the old single grid. .game-section
+// and .section-heading are new, smaller-scale echoes of
+// .grid-heading defined in style.css.
+function makeSection(title, liveCount) {
+  const section = document.createElement("section");
+  section.className = "game-section";
+
+  const header = document.createElement("div");
+  header.className = "section-heading";
+  header.innerHTML = `<h3>${title}</h3><span class="count">${liveCount} live</span>`;
+
+  const sectionGrid = document.createElement("div");
+  sectionGrid.className = "grid";
+
+  section.appendChild(header);
+  section.appendChild(sectionGrid);
+  grid.appendChild(section);
+  return sectionGrid;
+}
+
+let globalIndex = 0;
+
+sectionDefs.forEach(({ name, slugs }) => {
+  const sectionGames = slugs.map(slug => bySlug.get(slug)).filter(Boolean);
+  if (sectionGames.length === 0) return;
+
+  const liveCount = sectionGames.filter(g => g.ready).length;
+  const sectionGrid = makeSection(name, liveCount);
+
+  sectionGames.forEach(game => {
+    usedSlugs.add(game.slug);
+    globalIndex++;
+    sectionGrid.appendChild(makeTile(game, String(globalIndex).padStart(2, "0")));
+  });
 });
+
+// Anything ready that wasn't placed in a named section above.
+const leftoverReady = games.filter(g => g.ready && !usedSlugs.has(g.slug));
+if (leftoverReady.length > 0) {
+  const sectionGrid = makeSection("More Games", leftoverReady.length);
+  leftoverReady.forEach(game => {
+    usedSlugs.add(game.slug);
+    globalIndex++;
+    sectionGrid.appendChild(makeTile(game, String(globalIndex).padStart(2, "0")));
+  });
+}
+
+// Unready/locked games get their own section at the bottom.
+const lockedGames = games.filter(g => !g.ready);
+if (lockedGames.length > 0) {
+  const sectionGrid = makeSection("Coming Soon", 0);
+  lockedGames.forEach(game => {
+    globalIndex++;
+    sectionGrid.appendChild(makeTile(game, String(globalIndex).padStart(2, "0")));
+  });
+}
+
 // ---------------------------------------------------------
-// Search: filters tiles by title as the user types.
+// Search: filters tiles by title as the user types, and hides
+// any section whose tiles are all filtered out.
 // ---------------------------------------------------------
 const searchInput = document.getElementById("search");
 if (searchInput) {
   searchInput.addEventListener("input", () => {
     const query = searchInput.value.trim().toLowerCase();
-    document.querySelectorAll("#grid .tile").forEach(tile => {
-      const matches = tile.dataset.title.includes(query);
-      tile.style.display = matches ? "" : "none";
+    document.querySelectorAll(".game-section").forEach(section => {
+      let anyVisible = false;
+      section.querySelectorAll(".tile").forEach(tile => {
+        const matches = tile.dataset.title.includes(query);
+        tile.style.display = matches ? "" : "none";
+        if (matches) anyVisible = true;
+      });
+      section.style.display = anyVisible ? "" : "none";
     });
   });
 }
