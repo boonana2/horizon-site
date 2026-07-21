@@ -207,7 +207,7 @@ export default {
       // ---------- LIST CONVERSATIONS ----------
       if (url.pathname === "/api/conversations" && request.method === "GET") {
         const convos = await db.prepare(`
-          SELECT c.id, c.type, c.name FROM conversations c
+          SELECT c.id, c.type, c.name, c.created_at FROM conversations c
           JOIN conversation_members cm ON cm.conversation_id = c.id
           WHERE cm.user_id = ?
         `).bind(me.id).all();
@@ -221,7 +221,7 @@ export default {
           `).bind(c.id, me.id).all();
 
           const last = await db.prepare(
-            "SELECT content, sender_id FROM messages WHERE conversation_id = ? ORDER BY created_at DESC LIMIT 1"
+            "SELECT content, sender_id, created_at FROM messages WHERE conversation_id = ? ORDER BY created_at DESC LIMIT 1"
           ).bind(c.id).first();
 
           results.push({
@@ -229,9 +229,13 @@ export default {
             type: c.type,
             name: c.type === "dm" ? (members.results[0]?.username || "Unknown") : c.name,
             members: members.results,
-            lastMessage: last ? { content: last.content, mine: last.sender_id === me.id } : null
+            lastMessage: last ? { content: last.content, mine: last.sender_id === me.id } : null,
+            lastActivityAt: last ? last.created_at : c.created_at
           });
         }
+
+        results.sort((a, b) => b.lastActivityAt - a.lastActivityAt);
+
         return json({ conversations: results }, 200, origin);
       }
 
