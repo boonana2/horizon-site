@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horizon: Rooftop Snipers 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <svg class="page-scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <filter id="sun-glow" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="10" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <clipPath id="sun-stripes">
+        <rect x="380" y="330" width="440" height="34"/>
+        <rect x="380" y="378" width="440" height="26"/>
+        <rect x="380" y="418" width="440" height="20"/>
+        <rect x="380" y="452" width="440" height="16"/>
+        <rect x="380" y="480" width="440" height="12"/>
+        <rect x="380" y="500" width="440" height="9"/>
+      </clipPath>
+      <radialGradient id="sun-fade" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#FF7A33" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#FF7A33" stop-opacity="0.55"/>
+      </radialGradient>
+    </defs>
+    <ellipse cx="600" cy="560" rx="520" ry="260" fill="rgba(255,122,51,0.14)"/>
+    <g fill="#F3EDF7">
+      <circle cx="60" cy="60" r="1.6" opacity="0.6"/>
+      <circle cx="150" cy="140" r="1" opacity="0.35"/>
+      <circle cx="100" cy="230" r="1.3" opacity="0.5"/>
+      <circle cx="220" cy="90" r="1" opacity="0.4"/>
+      <circle cx="70" cy="300" r="1.4" opacity="0.45"/>
+      <circle cx="300" cy="60" r="1" opacity="0.35"/>
+      <circle cx="330" cy="180" r="1.2" opacity="0.4"/>
+      <circle cx="1140" cy="65" r="1.6" opacity="0.6"/>
+      <circle cx="1050" cy="145" r="1" opacity="0.35"/>
+      <circle cx="1100" cy="235" r="1.3" opacity="0.5"/>
+      <circle cx="980" cy="95" r="1" opacity="0.4"/>
+      <circle cx="1130" cy="300" r="1.4" opacity="0.45"/>
+      <circle cx="900" cy="60" r="1" opacity="0.35"/>
+      <circle cx="870" cy="190" r="1.2" opacity="0.4"/>
+    </g>
+    <circle cx="600" cy="440" r="200" fill="url(#sun-fade)" filter="url(#sun-glow)"/>
+    <circle cx="600" cy="440" r="200" fill="#FF7A33" clip-path="url(#sun-stripes)" filter="url(#sun-glow)"/>
+    <path d="M0,800 L0,520 L80,470 L160,510 L260,440 L360,500 L460,430 L560,490 L660,450 L760,510 L860,440 L960,500 L1060,460 L1160,510 L1200,480 L1200,800 Z" fill="#2A2050" opacity="0.65"/>
+    <path d="M0,800 L0,580 L90,540 L190,590 L300,520 L410,580 L520,500 L630,570 L740,510 L850,580 L960,520 L1070,580 L1160,540 L1200,570 L1200,800 Z" fill="#251B23" opacity="0.9"/>
+    <path d="M0,800 L0,660 L100,620 L220,660 L340,600 L460,650 L580,610 L700,660 L820,600 L940,650 L1060,610 L1160,650 L1200,630 L1200,800 Z" fill="#130F28"/>
+  </svg>
+
+  <nav class="topnav">
+    <a href="../../index.html" class="nav-brand">🌅 Horizon</a>
+    <div class="nav-right">
+      <span class="nav-title">Rooftop Snipers 2</span>
+      <a href="../../index.html" class="exit-btn" aria-label="Exit to Horizon">✕</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="arena-wrap">
+      
+      <div id="game-container">
+</div>
+
+      <div id="preview" class="overlay">
+        <div class="preview-content">
+          <h1>Rooftop Snipers 2</h1>
+          <p class="preview-tagline">A precision‑focused shooting game where players eliminate targets from elevated vantage points while managing timing and accuracy.</p>
+          
+          <div class="tabs" role="tablist">
+            <button class="tab-btn active" data-tab="gallery" type="button">Gallery</button>
+            <button class="tab-btn" data-tab="description" type="button">Description</button>
+            <button class="tab-btn" data-tab="controls" type="button">Controls</button>
+          </div>
+          
+          <div class="tab-panels">
+            <div class="tab-panel active" data-panel="gallery">
+              <div class="preview-gallery">
+                <div class="gallery-item">
+                  <img src="pictures/rs.png" alt="Gameplay">
+                </div>
+            </div>
+          </div>
+
+            <div class="tab-panel" data-panel="description">
+              <p class="preview-desc">
+               Rooftop Sniper challenges players to line up long‑range shots across shifting urban environments, balancing recoil, movement, and limited windows of opportunity. Its simple controls and escalating difficulty create a tense, skill‑driven experience centered on patience, aim, and strategic positioning.</p>
+            </div>
+
+            <div class="tab-panel" data-panel="controls">
+              <div class="controls-info">
+                <div><strong>Jump</strong><span>W</span></div>
+                <div><strong>Shoot</strong><span>E</span></div>
+              </div>
+            </div>
+          </div>
+          
+          <button id="start-play" class="play-btn">Play</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
