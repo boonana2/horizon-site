@@ -537,12 +537,7 @@
     <div class="nav-right">
       <a href="../info/index.html" class="nav-link">Info</a>
     </div>
-        <div class="nav-center">
-      <div class="nav-center-line">This website may be blocked.</div>
-      <div class="nav-center-line">Refer to the <a href="../info/index.html">Info</a> tab for more information to prevent this.</div>
-    </div>
   </nav>
-  
 
   <header class="hero chat-hero">
     <svg class="stars" viewBox="0 0 1200 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -582,14 +577,14 @@
     <!-- Auth gate -->
     <div class="auth-shell" id="authShell">
       <div class="panel auth-panel">
-        <h2 id="authTitle">Log in</h2>
+        <h2 id="authTitle">Log In</h2>
         <label for="authUsername">Username</label>
         <input type="text" id="authUsername" autocomplete="username">
         <label for="authPassword">Password</label>
         <input type="password" id="authPassword" autocomplete="current-password">
         <div class="modal-actions" style="justify-content:space-between; align-items:center;">
-          <button class="link-btn" id="authToggle">Need an account? Sign up</button>
-          <button class="btn-primary" id="authSubmit">Log in</button>
+          <button class="link-btn" id="authToggle">Need an account? Sign Up</button>
+          <button class="btn-primary" id="authSubmit">Log In</button>
         </div>
         <p class="auth-error" id="authError"></p>
       </div>
@@ -625,10 +620,11 @@
           <div id="chatActive" style="display:none; flex-direction:column; height:100%;">
             <div class="chat-head">
               <div class="avatar" id="chatAvatar"></div>
-              <div>
+              <div style="flex:1;">
                 <div class="chat-head-name" id="chatName"></div>
                 <div class="chat-head-sub" id="chatSub"></div>
               </div>
+              <button class="icon-btn" id="groupInfoBtn" title="Group members" style="display:none;">i</button>
             </div>
             <div class="messages" id="messages"></div>
             <div class="composer">
@@ -645,27 +641,46 @@
   <div class="modal-overlay" id="addFriendModal">
     <div class="modal">
       <h3>Add a friend</h3>
-      <label for="friendCodeInput">Their username or friend code</label>
-      <input type="text" id="friendCodeInput" placeholder="e.g. nova#4471">
+      <label for="friendCodeInput">Username</label>
+      <input type="text" id="friendCodeInput" placeholder="e.g. novastar22">
       <div class="modal-actions">
         <button class="btn-ghost" data-close="addFriendModal">Cancel</button>
         <button class="btn-primary" id="sendRequestBtn">Send request</button>
       </div>
-      <p class="modal-note">They'll show up under the Requests tab once they accept.</p>
+      <p class="modal-note">They'll show up once they accept.</p>
     </div>
   </div>
 
   <!-- New group modal -->
   <div class="modal-overlay" id="newGroupModal">
     <div class="modal">
-      <h3>New group</h3>
-      <label for="groupNameInput">Group name</label>
+      <h3>New Group</h3>
+      <label for="groupNameInput">Group Name</label>
       <input type="text" id="groupNameInput" placeholder="e.g. Weekend Crew">
       <label>Pick friends to add</label>
       <div class="modal-checklist" id="groupChecklist"></div>
       <div class="modal-actions">
         <button class="btn-ghost" data-close="newGroupModal">Cancel</button>
-        <button class="btn-primary" id="createGroupBtn">Create group</button>
+        <button class="btn-primary" id="createGroupBtn">Create Group</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Group members: view, and (creator only) add / remove -->
+  <div class="modal-overlay" id="groupInfoModal">
+    <div class="modal">
+      <h3>Group Members</h3>
+      <div class="modal-checklist" id="groupMembersList" style="max-height:200px;"></div>
+
+      <div id="addMembersSection" style="display:none;">
+        <label style="margin-top:0.4rem;">Add Friends</label>
+        <div class="modal-checklist" id="addMembersChecklist"></div>
+        <button class="btn-primary" id="confirmAddMembersBtn" style="width:100%; margin-bottom:0.6rem;">Add Selected</button>
+      </div>
+
+      <div class="modal-actions" style="justify-content:space-between; align-items:center;">
+        <button class="link-btn" id="toggleAddMembers" style="display:none;">+ Add Members</button>
+        <button class="btn-ghost" data-close="groupInfoModal">Close</button>
       </div>
     </div>
   </div>
@@ -675,7 +690,7 @@
     // Set this to your deployed Worker URL (see horizon-chat-backend/README.md,
     // step 5). It'll look like https://horizon-chat.your-subdomain.workers.dev
     // ---------------------------------------------------------------------
-    const API_BASE = 'https://horizon-chat.x67.workers.dev';
+    const API_BASE = 'https://horizon-chat.YOUR-SUBDOMAIN.workers.dev';
 
     const TOKEN_KEY = 'horizon-chat-token';
     let token = localStorage.getItem(TOKEN_KEY);
@@ -738,7 +753,7 @@
       document.getElementById('authTitle').textContent = authMode === 'login' ? 'Log in' : 'Sign up';
       document.getElementById('authSubmit').textContent = authMode === 'login' ? 'Log in' : 'Sign up';
       document.getElementById('authToggle').textContent =
-        authMode === 'login' ? 'Need an account? Sign up' : 'Already have one? Log in';
+        authMode === 'login' ? 'Need an account? Sign up' : 'Already have one? Log In';
       document.getElementById('authError').textContent = '';
     });
 
@@ -872,6 +887,7 @@
       document.getElementById('chatName').textContent = convo.name;
       document.getElementById('chatSub').textContent =
         convo.type === 'group' ? `${convo.members.length + 1} members` : '';
+      document.getElementById('groupInfoBtn').style.display = convo.type === 'group' ? 'flex' : 'none';
 
       renderSidebar();
       messagesEl.innerHTML = '';
@@ -933,6 +949,108 @@
 
     document.getElementById('sendBtn').addEventListener('click', sendMessage);
     messageInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+    // ---------- Group members ----------
+
+    function renderGroupMembersList() {
+      const convo = conversations.find(c => c.id === activeConvoId);
+      if (!convo) return;
+      const isCreator = convo.createdBy === me.id;
+
+      const list = document.getElementById('groupMembersList');
+      list.innerHTML = '';
+
+      // Me first, then everyone else
+      const rows = [{ id: me.id, username: `${me.username} (you)`, removable: false }]
+        .concat(convo.members.map(m => ({ id: m.id, username: m.username, removable: isCreator })));
+
+      rows.forEach(r => {
+        const row = document.createElement('div');
+        row.className = 'convo-item';
+        row.style.cursor = 'default';
+        row.innerHTML = `
+          <div class="avatar">${initials(r.username)}</div>
+          <div class="convo-meta" style="flex:1;">
+            <div class="convo-name">${escapeHtml(r.username)}</div>
+          </div>`;
+        if (r.removable) {
+          const removeBtn = document.createElement('button');
+          removeBtn.className = 'icon-btn';
+          removeBtn.textContent = '✕';
+          removeBtn.title = 'Remove from group';
+          removeBtn.onclick = () => removeGroupMember(r.id);
+          row.appendChild(removeBtn);
+        }
+        list.appendChild(row);
+      });
+
+      document.getElementById('toggleAddMembers').style.display = isCreator ? 'inline' : 'none';
+      document.getElementById('addMembersSection').style.display = 'none';
+      document.getElementById('toggleAddMembers').textContent = '+ Add members';
+    }
+
+    function openGroupInfo() {
+      renderGroupMembersList();
+      openModal('groupInfoModal');
+    }
+
+    async function removeGroupMember(userId) {
+      try {
+        await api(`/api/conversations/${activeConvoId}/members/remove`, {
+          method: 'POST',
+          body: JSON.stringify({ userId })
+        });
+        await loadEverything();
+        renderGroupMembersList();
+        const convo = conversations.find(c => c.id === activeConvoId);
+        if (convo) document.getElementById('chatSub').textContent = `${convo.members.length + 1} members`;
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    document.getElementById('groupInfoBtn').addEventListener('click', openGroupInfo);
+
+    document.getElementById('toggleAddMembers').addEventListener('click', () => {
+      const convo = conversations.find(c => c.id === activeConvoId);
+      if (!convo) return;
+      const memberIds = new Set(convo.members.map(m => m.id));
+      const eligible = friends.filter(f => !memberIds.has(f.id));
+
+      const checklist = document.getElementById('addMembersChecklist');
+      checklist.innerHTML = '';
+      if (eligible.length === 0) {
+        checklist.innerHTML = '<div class="empty-list-note">All your friends are already in this group.</div>';
+      }
+      eligible.forEach(f => {
+        const row = document.createElement('label');
+        row.className = 'modal-check-row';
+        row.innerHTML = `
+          <input type="checkbox" class="check-input" value="${f.id}">
+          <span class="check-box"></span>
+          <span class="check-name">${escapeHtml(f.username)}</span>`;
+        checklist.appendChild(row);
+      });
+
+      document.getElementById('addMembersSection').style.display = 'block';
+    });
+
+    document.getElementById('confirmAddMembersBtn').addEventListener('click', async () => {
+      const checked = Array.from(document.querySelectorAll('#addMembersChecklist input:checked')).map(c => c.value);
+      if (checked.length === 0) return;
+      try {
+        await api(`/api/conversations/${activeConvoId}/members`, {
+          method: 'POST',
+          body: JSON.stringify({ memberIds: checked })
+        });
+        await loadEverything();
+        renderGroupMembersList();
+        const convo = conversations.find(c => c.id === activeConvoId);
+        if (convo) document.getElementById('chatSub').textContent = `${convo.members.length + 1} members`;
+      } catch (err) {
+        alert(err.message);
+      }
+    });
 
     // ---------- Modals ----------
 
