@@ -15,16 +15,23 @@ CREATE TABLE IF NOT EXISTS friendships (
   id TEXT PRIMARY KEY,
   requester_id TEXT NOT NULL,
   addressee_id TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'pending', -- pending | accepted
+  -- status is 'pending' or 'accepted'
+  status TEXT NOT NULL DEFAULT 'pending',
   created_at INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS conversations (
   id TEXT PRIMARY KEY,
-  type TEXT NOT NULL, -- dm | group
+  type TEXT NOT NULL,
   name TEXT,
+  created_by TEXT,
   created_at INTEGER NOT NULL
 );
+
+-- If your conversations table already existed before this column was added,
+-- run this once in the D1 console (it'll error harmlessly if the column is
+-- already there — that's fine, just means you already ran it):
+-- ALTER TABLE conversations ADD COLUMN created_by TEXT;
 
 CREATE TABLE IF NOT EXISTS conversation_members (
   conversation_id TEXT NOT NULL,
