@@ -207,7 +207,7 @@ export default {
       // ---------- LIST CONVERSATIONS ----------
       if (url.pathname === "/api/conversations" && request.method === "GET") {
         const convos = await db.prepare(`
-          SELECT c.id, c.type, c.name, c.created_at FROM conversations c
+          SELECT c.id, c.type, c.name, c.created_at, c.created_by FROM conversations c
           JOIN conversation_members cm ON cm.conversation_id = c.id
           WHERE cm.user_id = ?
         `).bind(me.id).all();
@@ -229,6 +229,7 @@ export default {
             type: c.type,
             name: c.type === "dm" ? (members.results[0]?.username || "Unknown") : c.name,
             members: members.results,
+            createdBy: c.created_by,
             lastMessage: last ? { content: last.content, mine: last.sender_id === me.id } : null,
             lastActivityAt: last ? last.created_at : c.created_at
           });
@@ -246,8 +247,8 @@ export default {
           return json({ error: "Name and at least one member required." }, 400, origin);
         }
         const id = crypto.randomUUID();
-        await db.prepare("INSERT INTO conversations (id, type, name, created_at) VALUES (?, 'group', ?, ?)")
-          .bind(id, name, Date.now()).run();
+        await db.prepare("INSERT INTO conversations (id, type, name, created_by, created_at) VALUES (?, 'group', ?, ?, ?)")
+          .bind(id, name, me.id, Date.now()).run();
 
         const inserts = [me.id, ...memberIds].map((uid) =>
           db.prepare("INSERT INTO conversation_members (conversation_id, user_id) VALUES (?, ?)").bind(id, uid)
@@ -255,6 +256,45 @@ export default {
         await db.batch(inserts);
 
         return json({ id }, 200, origin);
+      }
+
+      // ---------- ADD MEMBERS TO GROUP (creator only) ----------
+      const addMembersMatch = url.pathname.match(/^\/api\/conversations\/([^/]+)\/members$/);
+      if (addMembersMatch && request.method === "POST") {
+        const convoId = addMembersMatch[1];
+        const { memberIds } = await request.json();
+        if (!Array.isArray(memberIds) || memberIds.length === 0) {
+          return json({ error: "No members provided." }, 400, origin);
+        }
+
+        const convo = await db.prepare("SELECT * FROM conversations WHERE id = ?").bind(convoId).first();
+        if (!convo || convo.type !== "group") return json({ error: "Group not found." }, 404, origin);
+        if (convo.created_by !== me.id) return json({ error: "Only the group creator can add members." }, 403, origin);
+
+        const inserts = memberIds.map((uid) =>
+          db.prepare("INSERT OR IGNORE INTO conversation_members (conversation_id, user_id) VALUES (?, ?)").bind(convoId, uid)
+        );
+        await db.batch(inserts);
+
+        return json({ ok: true }, 200, origin);
+      }
+
+      // ---------- REMOVE MEMBER FROM GROUP (creator only) ----------
+      const removeMemberMatch = url.pathname.match(/^\/api\/conversations\/([^/]+)\/members\/remove$/);
+      if (removeMemberMatch && request.method === "POST") {
+        const convoId = removeMemberMatch[1];
+        const { userId } = await request.json();
+        if (!userId) return json({ error: "No user specified." }, 400, origin);
+
+        const convo = await db.prepare("SELECT * FROM conversations WHERE id = ?").bind(convoId).first();
+        if (!convo || convo.type !== "group") return json({ error: "Group not found." }, 404, origin);
+        if (convo.created_by !== me.id) return json({ error: "Only the group creator can remove members." }, 403, origin);
+        if (userId === me.id) return json({ error: "The creator can't remove themselves." }, 400, origin);
+
+        await db.prepare("DELETE FROM conversation_members WHERE conversation_id = ? AND user_id = ?")
+          .bind(convoId, userId).run();
+
+        return json({ ok: true }, 200, origin);
       }
 
       // ---------- MESSAGE HISTORY ----------
