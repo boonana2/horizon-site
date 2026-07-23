@@ -43,10 +43,9 @@ const games = [
   { title: "2048", slug: "2048", blurb: "A sliding‑tile puzzle where you combine matching numbers to reach the 2048 tile.", ready: true },
   { title: "8-Ball", slug: "8ball", blurb: "A classic billiards game where you aim, shoot, and sink all your assigned balls before finishing with the 8‑ball.", ready: true },
 
-  { title: "Untitled Game", slug: "game", blurb: "Not started yet.", ready: false },
   { title: "Bomberman", slug: "bomberman", blurb: "A fast-paced multiplayer action game where players place bombs to be the last one standing.", ready: false },
-  { title: "first test game", slug: "smash", blurb: "a", ready: true },
-  { title: "CHINESE Summit Smash", slug: "flash-test", blurb: "A fast-paced multiplayer platform fighter inspired by Super Smash Bros.", ready: false },
+  { title: "test game 1", slug: "smash", blurb: "", ready: false },
+  { title: "Summit Smash", slug: "flash-test", blurb: "A fast-paced multiplayer platform fighter inspired by Super Smash Bros.", ready: false },
 ];
 
 // ---------------------------------------------------------
