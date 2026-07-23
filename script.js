@@ -9,6 +9,7 @@ const games = [
   { title: "Fireboy & Watergirl: Crystal", slug: "fbwg:crystal", blurb: "A puzzle-platformer where players guide both characters through several puzzles to reach the exit of each level.", ready: true },
   { title: "Geometry Dash", slug: "gd", blurb: "A rhythm‑based platformer where you jump, fly, and dodge obstacles in fast, music‑synced levels.", ready: true },
   { title: "Geometry Dash Vibes", slug: "gd-vibes", blurb: "A rhythm‑runner where you hold space to float upward and release to drop while dodging spikes and obstacles.", ready: true },
+  { title: "Google Snake", slug: "gsnake", blurb: "A classic grid‑based arcade game where players guide a growing snake to collect food without colliding with walls or themselves.", ready: true },
   { title: "Helix Jump", slug: "helix", blurb: "A fast‑paced arcade game where players guide a falling ball through rotating helix platforms while avoiding obstacles.", ready: true },
   { title: "Idle Breakout", slug: "idle-breakout", blurb: "An idle brick‑breaking game where you buy balls, upgrade them, and let them destroy blocks automatically to earn more cash.", ready: true },
   { title: "Papa's Bakeria", slug: "pbakeria", blurb: "A time‑management cooking simulator where you run a restaurant, take orders, prepare food, and serve customers as fast and accurately as possible.", ready: true },
@@ -71,6 +72,10 @@ const sectionDefs = [
       "pfreezeria", "photdoggeria", "ppancakeria", "ppastaria", "ppizzeria",
       "pscooperia", "psushiria", "ptacomia", "pwingeria",
     ],
+  },
+  {
+    name: "Google Suite",
+    slugs: ["gsnake"],
   },
   {
     name: "Idle",
